@@ -12,5 +12,7 @@
     <string name="menu_books_read">Cartile mele</string>
     <string name="show_option">Optiunea %1$s a fost apasata!</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello from fragment All books</string>
+    <string name="hello_from_fragment_favorite">Hello from fragment Favorite</string>
+    <string name="hello_from_fragment_books_read">Hello from fragment Books read</string>
 </resources>

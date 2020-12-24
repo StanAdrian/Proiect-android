@@ -1,5 +1,7 @@
 package eu.ase.proiect.util;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 public class Book implements Serializable {
