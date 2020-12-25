@@ -5,11 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import eu.ase.proiect.R;
 
 public class BookAdapter extends ArrayAdapter<Book> {
 
@@ -38,14 +42,40 @@ public class BookAdapter extends ArrayAdapter<Book> {
         Book book = listBooks.get(position);
 
         if(book != null) {
-
+            addBookTitle(view,book.getTitle());
+            addBookAuthor(view, book.getAuthor());
+            addRatingBar(view, book.getRating());
         }
         return view;
+
+    }
+
+    private void addBookTitle(View view, String title) {
+        TextView textView = view.findViewById(R.id.item_book_title);
+        populateFromView(title, textView);
+    }
+
+    private void addBookAuthor(View view, String author) {
+        TextView textView = view.findViewById(R.id.item_book_author);
+        populateFromView(author, textView);
+    }
+
+    private void addRatingBar(View view, float rating){
+        RatingBar ratingBar = view.findViewById(R.id.item_book_ratingbar);
+        if(rating >= 0){
+            ratingBar.setRating(rating);
+        } else{
+            ratingBar.setRating(0);
+        }
     }
 
 
-
-
-
+    private void populateFromView(String string, TextView textView) {
+        if (string != null && !string.trim().isEmpty()) {
+            textView.setText(string);
+        } else {
+            textView.setText(R.string.no_content);
+        }
+    }
 
 }
