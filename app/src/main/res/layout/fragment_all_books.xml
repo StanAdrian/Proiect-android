@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/rv_book"
+        app:layout_constraintBottom_toTopOf="@id/lv_book"
         android:layout_marginTop="16dp"
         android:textSize="16dp"
         android:text="@string/hello_blank_fragment"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_book"
+    <ListView
+        android:id="@+id/lv_book"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

@@ -26,9 +26,10 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_uploading_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/book1" />
+         />
 
     <TextView
         android:transitionName="booktitleTN"
@@ -38,7 +39,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="An American Marriage"
+        android:text="Title"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toTopOf="@+id/item_book_img" />
@@ -51,7 +52,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="By Tayari Jones"
+        android:text="By Author"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toBottomOf="@+id/item_book_title" />
 
@@ -86,7 +87,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="225 pages | 23 review"
+        android:text="0 pages | 0 review"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toBottomOf="@+id/item_book_author" />
 
@@ -112,7 +113,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:lineSpacingExtra="8sp"
-        android:text="@string/lorem_text"
+        android:text="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_book_img" />

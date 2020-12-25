@@ -1,5 +1,6 @@
 package eu.ase.proiect;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         configNavigation();
 
         initComponents();
@@ -72,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if(item.getItemId()==R.id.nav_all_books){
-
-                    currentFragment = AllBooksFragment.newInstance(listBooks);
+                   currentFragment = AllBooksFragment.newInstance(listBooks);
                 }
                 else if(item.getItemId() == R.id.nav_favorite){
                     currentFragment = new FavoriteFragment();
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openDefaultFragment(Bundle saveInstanceState){
         if(saveInstanceState == null) {
-            currentFragment = AllBooksFragment.newInstance(listBooks);
+            currentFragment =  AllBooksFragment.newInstance(listBooks);
             openFragment();
             navigationView.setCheckedItem(R.id.nav_all_books);
         }

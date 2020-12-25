@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
             addBookTitle(view,book.getTitle());
             addBookAuthor(view, book.getAuthor());
             addRatingBar(view, book.getRating());
+            addNbPages(view, book.getPages(), book.getReview());
+            addBookImg(view, book.getDrawableResource());
         }
         return view;
 
@@ -67,6 +70,21 @@ public class BookAdapter extends ArrayAdapter<Book> {
         } else{
             ratingBar.setRating(0);
         }
+    }
+
+    private void addNbPages(View view, int pages, int review){
+        TextView textView = view.findViewById(R.id.item_book_pagesrev);
+        if (pages >= 0 && review >=0) {
+            textView.setText(pages + " pages | " + review + " review");
+        } else {
+            textView.setText(R.string.no_content);
+        }
+    }
+
+    private void addBookImg(View view, int drawableResource){
+        ImageView imageView = view.findViewById(R.id.item_book_img);
+        imageView.setImageResource(drawableResource);
+
     }
 
 
