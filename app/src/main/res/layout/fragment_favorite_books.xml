@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.BooksReadFragment">
+    tools:context=".fragments.FavoriteBooksFragment">
 
     <ListView
-        android:id="@+id/lv_books_read"
+        android:id="@+id/lv_favorite_book"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="64dp"
@@ -20,4 +20,5 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,15 +7,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import eu.ase.proiect.R;
 import eu.ase.proiect.util.Book;
 import eu.ase.proiect.util.BookAdapter;
+import eu.ase.proiect.util.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +30,7 @@ public class BookDetailsFragment extends Fragment {
     private List<Book> lBooks = new ArrayList<>();
     private ListView lvBookDetails;
     private TextView tvDescription;
+    private Button btnAddToFavorite;
 
     public BookDetailsFragment() {
         // Required empty public constructor
@@ -45,11 +49,9 @@ public class BookDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_details, container, false);
-
-
         initComponents(view);
-
         addBookAdapter();
+
 
         return view;
     }
@@ -57,14 +59,26 @@ public class BookDetailsFragment extends Fragment {
     private void initComponents(View view) {
         lvBookDetails = view.findViewById(R.id.lv_book_details);
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
+        btnAddToFavorite = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         Bundle bundle = this.getArguments();
-        Book book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
-
+        book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
         if(book != null) {
             lBooks.add(book);
+            tvDescription.setText(book.getDescription());
         }
 
-        tvDescription.setText(book.getDescription());
+        btnAddToFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(User.mapFavoriteBook == null){
+                    User.mapFavoriteBook = new HashMap<Integer, Book>();
+                    User.mapFavoriteBook.put(book.getId(),book);
+                } else if(!User.mapFavoriteBook.containsKey(book.getId())){
+                    User.mapFavoriteBook.put(book.getId(),book);
+                }
+            }
+        });
+
     }
 
 

@@ -6,14 +6,15 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
     private String title,description,author,imgUrl;
-    private int pages,review;
+    private int id,pages,review;
     private float rating;
     private int drawableResource; // this for testing purpos...
 
     public Book() {
     }
 
-    public Book(String title, String description, String author, String imgUrl, int pages, int review, float rating, int drawableResource) {
+    public Book(int id, String title, String description, String author, String imgUrl, int pages, int review, float rating, int drawableResource) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
@@ -86,6 +87,14 @@ public class Book implements Serializable {
 
     public void setDrawableResource(int drawableResource) {
         this.drawableResource = drawableResource;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

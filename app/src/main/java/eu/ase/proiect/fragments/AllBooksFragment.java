@@ -25,9 +25,8 @@ import eu.ase.proiect.util.BookAdapter;
  */
 public class AllBooksFragment extends Fragment {
 
-
-    public static final String BOOK_KEY = "book_key";
     public static final String BOOK_DETAILS_KEY = "book_details_key";
+    public static final String BOOK_KEY="book_key";
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
 
@@ -41,11 +40,11 @@ public class AllBooksFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
+        listBooks.add(new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
+        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
+        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
 
         initComponents(view);
-        listBooks.add(new Book("An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
-        listBooks.add(new Book("The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
-        listBooks.add(new Book("The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
 
         listViewAllBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,17 +58,17 @@ public class AllBooksFragment extends Fragment {
 
             }
         });
-
-
-
         return view;
-
     }
 
 
     private void initComponents(View view) {
         listViewAllBooks = view.findViewById(R.id.lv_book);
         addBookAdapter();
+
+        if(getArguments()!=null){
+            listBooks = (List<Book>) getArguments().getSerializable(AllBooksFragment.BOOK_KEY);
+        }
 
     }
 
@@ -79,7 +78,7 @@ public class AllBooksFragment extends Fragment {
         //Este utilizata pentru transmiterea de informatii intre activitati/fragmente
         //in cazul curente adaugam lista de cheltuieli pentru a o afisa in ListView-ul din fragment Home
         Bundle bundle = new Bundle();
-        //bundle.putParcelableArrayList(AllBooksFragment.BOOKS_KEY, listBooks);
+        bundle.putSerializable(AllBooksFragment.BOOK_KEY, listBooks);
         fragment.setArguments(bundle);
         return fragment;
     }

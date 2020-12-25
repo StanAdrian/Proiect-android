@@ -1,34 +1,24 @@
 package eu.ase.proiect;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
-import eu.ase.proiect.fragments.FavoriteFragment;
+import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.util.Book;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         configNavigation();
 
         initComponents();
+
         openDefaultFragment(savedInstanceState);
 
     }
@@ -62,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-    }
+  }
 
     private void initComponents() {
         navigationView=findViewById(R.id.nav_view);
@@ -76,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                    currentFragment = AllBooksFragment.newInstance(listBooks);
                 }
                 else if(item.getItemId() == R.id.nav_favorite){
-                    currentFragment = new FavoriteFragment();
+                    currentFragment = new FavoriteBooksFragment();
                 }
                 else if(item.getItemId() == R.id.nav_books_read) {
                     currentFragment = new BooksReadFragment();

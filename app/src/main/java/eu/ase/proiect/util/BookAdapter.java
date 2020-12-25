@@ -49,8 +49,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getDrawableResource());
         }
-        return view;
 
+        return view;
     }
 
     private void addBookTitle(View view, String title) {
