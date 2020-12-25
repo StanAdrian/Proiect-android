@@ -43,8 +43,8 @@ public class AllBooksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
 
         initComponents(view);
-        listBooks.add(new Book("An American Marriage","Descriere","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
-        listBooks.add(new Book("The Great Gasby","Descriere","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
+        listBooks.add(new Book("An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
+        listBooks.add(new Book("The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
         listBooks.add(new Book("The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
 
         listViewAllBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
