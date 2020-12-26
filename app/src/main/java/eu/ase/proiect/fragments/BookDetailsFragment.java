@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,7 +52,6 @@ public class BookDetailsFragment extends Fragment {
         initComponents(view);
         addBookAdapter();
 
-
         return view;
     }
 
@@ -77,12 +77,15 @@ public class BookDetailsFragment extends Fragment {
         btnAddToFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(User.mapFavoriteBook == null){
-                    User.mapFavoriteBook = new HashMap<Integer, Book>();
+               if(!User.mapFavoriteBook.containsKey(book.getId())){
                     User.mapFavoriteBook.put(book.getId(),book);
-                } else if(!User.mapFavoriteBook.containsKey(book.getId())){
-                    User.mapFavoriteBook.put(book.getId(),book);
+                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
+                    notifyAdapter();
+
+                } else {
+                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
@@ -94,6 +97,10 @@ public class BookDetailsFragment extends Fragment {
         lvBookDetails.setAdapter(bookAdapter);
     }
 
+    private void notifyAdapter(){
+        ArrayAdapter adapter =  (ArrayAdapter) lvBookDetails.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
 
 
 }

@@ -41,13 +41,19 @@ public class BookAdapter extends ArrayAdapter<Book> {
                         @NonNull ViewGroup parent) {
         View view = inflater.inflate(resource,parent,false);
         Book book = listBooks.get(position);
-
+        boolean b = false;
         if(book != null) {
             addBookTitle(view,book.getTitle());
             addBookAuthor(view, book.getAuthor());
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getDrawableResource());
+
+
+            if(User.mapFavoriteBook.containsValue(book)){
+                b = true;
+            }
+            addFavoriteImg(view, b);
         }
 
         return view;
@@ -84,6 +90,16 @@ public class BookAdapter extends ArrayAdapter<Book> {
     private void addBookImg(View view, int drawableResource){
         ImageView imageView = view.findViewById(R.id.item_book_img);
         imageView.setImageResource(drawableResource);
+
+    }
+
+    private void addFavoriteImg(View view, boolean fav){
+        ImageView imageView = view.findViewById(R.id.item_img_favorite);
+        if(fav) {
+            imageView.setImageResource(R.drawable.ic_favorite_red_24);
+        } else {
+            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
 
     }
 

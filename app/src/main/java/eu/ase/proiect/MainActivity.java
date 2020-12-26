@@ -21,6 +21,7 @@ import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.util.Book;
+import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
-        listBooks.add(new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
+        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
+        listBooks.add(b);
         listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
         listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
-
+        User.mapFavoriteBook.put(100,b);
         initComponents();
 
         openDefaultFragment(savedInstanceState);
