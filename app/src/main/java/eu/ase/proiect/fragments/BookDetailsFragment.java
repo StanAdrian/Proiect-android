@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +37,6 @@ public class BookDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,16 +56,24 @@ public class BookDetailsFragment extends Fragment {
     }
 
     private void initComponents(View view) {
+        //initializare views
         lvBookDetails = view.findViewById(R.id.lv_book_details);
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
         btnAddToFavorite = view.findViewById(R.id.btn_f_book_details_addToFavorite);
-        Bundle bundle = this.getArguments();
+
+
+        //preiau obiectul book din fragmentul AllBookFragment
+        Bundle bundle = getArguments();
         book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
         if(book != null) {
             lBooks.add(book);
             tvDescription.setText(book.getDescription());
+        } else {
+            Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
         }
 
+
+        // eveniment click buton AddFavorite
         btnAddToFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

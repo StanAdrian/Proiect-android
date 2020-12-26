@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
+        listBooks.add(new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
+        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
+        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
 
         initComponents();
 
@@ -64,20 +68,25 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if(item.getItemId()==R.id.nav_all_books){
-                   currentFragment = AllBooksFragment.newInstance(listBooks);
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    currentFragment = AllBooksFragment.newInstance(listBooks);
+                    ft.replace(R.id.main_frame_container, currentFragment);
+                    ft.commit();
+
                 }
                 else if(item.getItemId() == R.id.nav_favorite){
                     currentFragment = new FavoriteBooksFragment();
+                    openFragment();
                 }
                 else if(item.getItemId() == R.id.nav_books_read) {
                     currentFragment = new BooksReadFragment();
+                    openFragment();
                 }
 
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.show_option,item.getTitle()),
                         Toast.LENGTH_LONG).show();
 
-                openFragment();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }

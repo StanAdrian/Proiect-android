@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ import eu.ase.proiect.util.BookAdapter;
 public class AllBooksFragment extends Fragment {
 
     public static final String BOOK_DETAILS_KEY = "book_details_key";
-    public static final String BOOK_KEY="book_key";
+    public static final String BOOKS_KEY="book_key";
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
 
@@ -40,22 +41,27 @@ public class AllBooksFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
-        listBooks.add(new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1));
-        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
-        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
+        //preiau lista de carti din activitatea main
+        listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
 
         initComponents(view);
 
+
+        // click pe item din listview
         listViewAllBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(AllBooksFragment.BOOK_DETAILS_KEY, listBooks.get(position));
+                // trimit obiectul book in fragmentul BookDetailsFragment
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 BookDetailsFragment frg2 = new BookDetailsFragment();
-                frg2.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.main_frame_container,frg2).commit();
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(BOOK_DETAILS_KEY, listBooks.get(position));
+                frg2.setArguments(bundle);
+                ft.replace(R.id.main_frame_container, frg2);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
         return view;
@@ -63,22 +69,23 @@ public class AllBooksFragment extends Fragment {
 
 
     private void initComponents(View view) {
+        //initializare view
         listViewAllBooks = view.findViewById(R.id.lv_book);
+
+        //adaug adapter
         addBookAdapter();
 
-        if(getArguments()!=null){
-            listBooks = (List<Book>) getArguments().getSerializable(AllBooksFragment.BOOK_KEY);
-        }
 
     }
 
     public static AllBooksFragment newInstance(ArrayList<Book> listBooks) {
+
         AllBooksFragment fragment = new AllBooksFragment();
         //Bundle este o clasa asemanatoare cu intentul, doar ca nu poate deschide activitati.
         //Este utilizata pentru transmiterea de informatii intre activitati/fragmente
         //in cazul curente adaugam lista de cheltuieli pentru a o afisa in ListView-ul din fragment Home
         Bundle bundle = new Bundle();
-        bundle.putSerializable(AllBooksFragment.BOOK_KEY, listBooks);
+        bundle.putSerializable(BOOKS_KEY, listBooks);
         fragment.setArguments(bundle);
         return fragment;
     }
