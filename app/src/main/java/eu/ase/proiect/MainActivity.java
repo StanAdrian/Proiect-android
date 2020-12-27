@@ -16,20 +16,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
+import eu.ase.proiect.asyncTask.AsyncTaskRunner;
+import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static String URL_BOOKS="";
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
     private Fragment currentFragment;
     private ArrayList<Book> listBooks = new ArrayList<>();
+
+    private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,27 @@ public class MainActivity extends AppCompatActivity {
 
         openDefaultFragment(savedInstanceState);
 
+        //in acest moment functioneaza mecanismul de preluare date din url, trebuie structurat un json pe 3 nivele
+        //dupa punem url-ul in variabila noastra url si ne aduce informatia in aplicatie
+        getBooksFromNetwork();
+
     }
+
+    private void getBooksFromNetwork(){
+        Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
+        Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
+        asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
+    }
+
+    private Callback<String> getMainThreadOperationForBooks() {
+        return new Callback<String>() {
+            @Override
+            public void runResultOnUiThread(String result) {
+                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
 
     private void configNavigation() {
         Toolbar toolbar = findViewById(R.id.toolbar);
