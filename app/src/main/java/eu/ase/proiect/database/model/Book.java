@@ -1,19 +1,42 @@
-package eu.ase.proiect.util;
+package eu.ase.proiect.database.model;
 
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(tableName = "books")
 public class Book implements Serializable {
-    private String title,description,author,imgUrl;
-    private int id,pages,review;
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private long id;
+    @ColumnInfo(name = "title")
+    private String title;
+    @ColumnInfo(name = "description")
+    private String description;
+    @ColumnInfo(name = "author")
+    private String author;
+    @ColumnInfo(name = "imgUrl")
+    private String imgUrl;
+    @ColumnInfo(name = "pages")
+    private int pages;
+    @ColumnInfo(name = "review")
+    private int review;
+    @ColumnInfo(name = "rating")
     private float rating;
+    @ColumnInfo(name = "drawableResource")
     private int drawableResource; // this for testing purpos...
 
+    @Ignore
     public Book() {
     }
 
-    public Book(int id, String title, String description, String author, String imgUrl, int pages, int review, float rating, int drawableResource) {
+    public Book(long id, String title, String description, String author, String imgUrl, int pages, int review, float rating, int drawableResource) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -89,11 +112,11 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

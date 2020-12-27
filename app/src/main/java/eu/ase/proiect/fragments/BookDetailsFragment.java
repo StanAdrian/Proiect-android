@@ -14,11 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import eu.ase.proiect.R;
-import eu.ase.proiect.util.Book;
+import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.util.BookAdapter;
 import eu.ase.proiect.util.User;
 
@@ -77,9 +76,13 @@ public class BookDetailsFragment extends Fragment {
         btnAddToFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!User.mapFavoriteBook.containsKey(book.getId())){
+
+                if(!User.mapFavoriteBook.containsKey(book.getId())){
+
                     User.mapFavoriteBook.put(book.getId(),book);
+
                     Toast.makeText(getContext().getApplicationContext(), getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
+
                     notifyAdapter();
 
                 } else {

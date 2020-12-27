@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
-import eu.ase.proiect.util.Book;
+import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         listBooks.add(b);
         listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
         listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
-        User.mapFavoriteBook.put(100,b);
+        User.mapFavoriteBook.put(100l,b);
         initComponents();
 
         openDefaultFragment(savedInstanceState);

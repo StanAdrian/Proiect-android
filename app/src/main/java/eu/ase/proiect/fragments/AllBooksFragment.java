@@ -1,6 +1,5 @@
 package eu.ase.proiect.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,9 +15,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
-import eu.ase.proiect.util.Book;
+import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.util.BookAdapter;
 
 /**

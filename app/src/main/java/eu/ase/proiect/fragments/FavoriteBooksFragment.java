@@ -1,6 +1,5 @@
 package eu.ase.proiect.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import eu.ase.proiect.R;
-import eu.ase.proiect.util.Book;
+import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.util.BookAdapter;
 import eu.ase.proiect.util.User;
 
@@ -47,7 +45,7 @@ public class FavoriteBooksFragment extends Fragment {
 
     private void initComponents(View view) {
         lvFavoriteBook = view.findViewById(R.id.lv_favorite_book);
-        for (Map.Entry<Integer, Book> item : User.mapFavoriteBook.entrySet()) {
+        for (Map.Entry<Long, Book> item : User.mapFavoriteBook.entrySet()) {
             listFavoriteBooks.add(item.getValue());
         }
     }
