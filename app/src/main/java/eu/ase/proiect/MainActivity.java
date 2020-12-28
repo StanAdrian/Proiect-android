@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
@@ -25,17 +26,20 @@ import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.network.HttpManager;
+import eu.ase.proiect.util.Author;
+import eu.ase.proiect.util.BookJsonParser;
 import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String URL_BOOKS="";
+    public static String URL_BOOKS="https://jsonkeeper.com/b/4YYJ";
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
     private Fragment currentFragment;
     private ArrayList<Book> listBooks = new ArrayList<>();
+    private List<Author> listAuthors = new ArrayList<>();
 
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
@@ -49,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         configNavigation();
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
         listBooks.add(b);
-        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage", 308, 21, 4.2f, R.drawable.gatsby2));
+        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
+                308, 21, 4.2f, R.drawable.gatsby2  /* NU MERGE DACA PUI INT-ul xml.ului: 700094  */));
         listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
         User.mapFavoriteBook.put(100l,b);
         initComponents();
+
 
         openDefaultFragment(savedInstanceState);
 
@@ -73,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void runResultOnUiThread(String result) {
                 Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                listBooks.addAll(BookJsonParser.fromJson(result, listAuthors));
+
             }
         };
     }

@@ -1,6 +1,7 @@
 package eu.ase.proiect.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     private void addBookImg(View view, int drawableResource){
         ImageView imageView = view.findViewById(R.id.item_book_img);
-        imageView.setImageResource(drawableResource);
+// R.drawable.ic_a   MERGE
+//        int NU MERGE
+        Drawable d = view.getResources().getDrawable(drawableResource);
+        imageView.setImageDrawable(d);
+
 
     }
 
