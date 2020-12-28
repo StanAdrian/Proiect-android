@@ -1,7 +1,9 @@
 package eu.ase.proiect.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,9 +95,13 @@ public class BookAdapter extends ArrayAdapter<Book> {
         ImageView imageView = view.findViewById(R.id.item_book_img);
 // R.drawable.ic_a   MERGE
 //        int NU MERGE
-        Drawable d = view.getResources().getDrawable(drawableResource);
-        imageView.setImageDrawable(d);
 
+        try{
+            imageView.setImageResource(drawableResource);
+        }catch (Exception e){
+            imageView.setImageResource(R.drawable.ic_uploading_photo);
+            e.printStackTrace();
+        }
 
     }
 

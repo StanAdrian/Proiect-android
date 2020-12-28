@@ -80,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
             public void runResultOnUiThread(String result) {
                 Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                 listBooks.addAll(BookJsonParser.fromJson(result, listAuthors));
-
+                if (currentFragment instanceof AllBooksFragment) {
+                    ((AllBooksFragment) currentFragment).notifyInternalAdapter();
+                }
             }
         };
     }

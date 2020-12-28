@@ -97,7 +97,7 @@ public class AllBooksFragment extends Fragment {
         listViewAllBooks.setAdapter(bookAdapter);
     }
 
-    private void notifyAdapter(){
+    public void notifyInternalAdapter(){
         ArrayAdapter adapter =  (ArrayAdapter) listViewAllBooks.getAdapter();
         adapter.notifyDataSetChanged();
     }
