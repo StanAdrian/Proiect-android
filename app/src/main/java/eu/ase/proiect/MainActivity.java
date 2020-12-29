@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
     /*********   FRAGMENTE    *********/
 
     private void openFragment() {
+        toolbar.setTitle(R.string.title_all_books);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
