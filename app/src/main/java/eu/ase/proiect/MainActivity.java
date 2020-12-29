@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //        User.mapFavoriteBook.put(b.getId(),b);
 
         initComponents();
-
+//aa
 
         openDefaultFragment(savedInstanceState);
 
