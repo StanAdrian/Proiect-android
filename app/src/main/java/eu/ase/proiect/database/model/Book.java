@@ -7,6 +7,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.io.Serializable;
 
 @Entity(tableName = "books")
@@ -47,6 +49,8 @@ public class Book implements Serializable {
         this.rating = rating;
         this.drawableResource = drawableResource;
     }
+
+
 
     public String getTitle() {
         return title;

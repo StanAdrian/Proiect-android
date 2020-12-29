@@ -37,11 +37,11 @@ import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.util.Author;
 import eu.ase.proiect.util.BookJsonParser;
 import eu.ase.proiect.util.User;
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String URL_BOOKS="https://jsonkeeper.com/b/4YYJ";
-    private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -59,37 +59,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
-        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
+        getDataFromFireBase.getaBook(listBooks);
+        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "", 248, 11, 2.8f, R.drawable.book1);
         listBooks.add(b);
-        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
+        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "",
                 308, 21, 4.2f, R.drawable.gatsby2  /* NU MERGE DACA PUI INT-ul xml.ului: 700094  */));
-        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
-//        firebaseFirestore.collection("Carti").document("solo_leveling")
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        Book carte = documentSnapshot.toObject(Book.class);
-//                        listBooks.add(carte);
-//                    }
-//                });
-
+        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "", 321, 34, 4.8f, R.drawable.thefault));
         User.mapFavoriteBook.put(100l,b);
         initComponents();
+        if (currentFragment instanceof AllBooksFragment) {
+            ((AllBooksFragment) currentFragment).notifyInternalAdapter();
+        }
+
 
 
         openDefaultFragment(savedInstanceState);
 
         //in acest moment functioneaza mecanismul de preluare date din url, trebuie structurat un json pe 3 nivele
         //dupa punem url-ul in variabila noastra url si ne aduce informatia in aplicatie
-        getBooksFromNetwork();
+        //trebuie modificat jsonu
+        //getBooksFromNetwork();
 
     }
 
     private void getBooksFromNetwork(){
-        Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
-        Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
-        asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
+//        Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
+//        Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
+//        asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
     }
 
 //    Preluare carti din JSON
