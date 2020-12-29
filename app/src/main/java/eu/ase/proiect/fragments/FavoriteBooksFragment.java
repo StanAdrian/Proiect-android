@@ -76,7 +76,7 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
     private void initComponents(View view) {
 
         lvFavoriteBooks = view.findViewById(R.id.lv_favorite_book);
-
+        listFavoriteBooks.clear();
         for (Map.Entry<Long, Book> item : User.mapFavoriteBook.entrySet()) {
             listFavoriteBooks.add(item.getValue());
         }

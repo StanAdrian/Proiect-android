@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //aici se face logare automata
         FirebaseUser user=mAuth.getCurrentUser();
         if (user != null){
             //userul este deja conectat deci il trimitem in ecranul principal
