@@ -21,7 +21,9 @@
     <string name="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
     <string name="description">Description................</string>
     <string name="error_message_transfer_between_fragment">Transferul s-a realizat fara succes!</string>
-    <string name="confirm_add_to_favorite">Cartea "%1$s" a fost adaugata\n in lista de favorite!</string>
-    <string name="book_exist">Cartea "%1$s" exista in \nlista de favorite!</string>
+    <string name="confirm_add_to_favorite">Cartea "%1$s" a fost adaugata in lista de favorite!</string>
+    <string name="confirm_remove_to_favorite">Cartea "%1$s" a fost stearsa din lista de favorite!</string>
+    <string name="book_exist">Cartea "%1$s" exista in lista de favorite!</string>
+    <string name="book_no_exist">Cartea "%1$s" nu exista in lista de favorite!</string>
 
 </resources>

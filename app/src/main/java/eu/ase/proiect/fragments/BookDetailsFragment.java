@@ -32,6 +32,7 @@ public class BookDetailsFragment extends Fragment {
     private ListView lvBookDetails;
     private TextView tvDescription;
     private Button btnAddToFavorite;
+    private Button btnRemoveToFavorite;
 
     public BookDetailsFragment() {
         // Required empty public constructor
@@ -59,7 +60,7 @@ public class BookDetailsFragment extends Fragment {
         lvBookDetails = view.findViewById(R.id.lv_book_details);
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
         btnAddToFavorite = view.findViewById(R.id.btn_f_book_details_addToFavorite);
-
+        btnRemoveToFavorite = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
 
         //preiau obiectul book din fragmentul AllBookFragment
         Bundle bundle = getArguments();
@@ -81,9 +82,9 @@ public class BookDetailsFragment extends Fragment {
 
                     User.mapFavoriteBook.put(book.getId(),book);
 
-                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
 
-                    notifyAdapter();
+//                    notifyAdapter();
 
                 } else {
                     Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_LONG).show();
@@ -91,6 +92,22 @@ public class BookDetailsFragment extends Fragment {
 
             }
         });
+
+        // eveniment click buton RemoveFavorite
+        btnRemoveToFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(User.mapFavoriteBook.containsKey(book.getId())){
+                    User.mapFavoriteBook.remove(book.getId());
+                    Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(getContext(), getString(R.string.book_no_exist, book.getTitle()),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
