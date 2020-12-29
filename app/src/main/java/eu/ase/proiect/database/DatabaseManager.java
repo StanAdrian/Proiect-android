@@ -7,11 +7,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.google.rpc.context.AttributeContext;
+
 import eu.ase.proiect.database.dao.BookDao;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.util.Author;
 import eu.ase.proiect.util.DateConverter;
 
-@Database(entities = {Book.class}, exportSchema = false, version = 1)
+@Database(entities = {Book.class, Author.class}, exportSchema = false, version = 3)
 @TypeConverters({DateConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 

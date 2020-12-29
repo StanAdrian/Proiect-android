@@ -37,11 +37,11 @@ import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.util.Author;
 import eu.ase.proiect.util.BookJsonParser;
 import eu.ase.proiect.util.User;
-import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String URL_BOOKS="https://jsonkeeper.com/b/4YYJ";
+    private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -59,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
+
+
+
+
+//      firebaseFirestore.collection("Carti").document("solo_leveling")
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        Book carte = documentSnapshot.toObject(Book.class);
+//                        listBooks.add(carte);
+//                    }
+//                });
+
+//        User.mapFavoriteBook.put(b.getId(),b);
+
         getDataFromFireBase.getaBook(listBooks);
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "", 248, 11, 2.8f, R.drawable.book1);
         listBooks.add(b);
@@ -169,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
     /*********   FRAGMENTE    *********/
 
     private void openFragment() {
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
@@ -183,5 +200,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
 
 }

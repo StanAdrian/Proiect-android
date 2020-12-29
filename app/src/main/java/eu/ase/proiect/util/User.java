@@ -12,6 +12,5 @@ public class User {
     public static Map<Long, Book> mapFavoriteBook= new HashMap<Long, Book>();
     public static Map<Integer,Book> mapBookRead = new HashMap<Integer, Book>();
 
-//cancer
 
 }
