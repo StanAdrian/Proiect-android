@@ -25,6 +25,7 @@ import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.fragments.SettingsFragment;
 import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.util.Author;
 import eu.ase.proiect.util.BookJsonParser;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
+    private Toolbar toolbar;
     private Fragment currentFragment;
     private ArrayList<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
@@ -74,11 +75,12 @@ public class MainActivity extends AppCompatActivity {
         asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
     }
 
+//    Preluare carti din JSON
     private Callback<String> getMainThreadOperationForBooks() {
         return new Callback<String>() {
             @Override
             public void runResultOnUiThread(String result) {
-                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                 listBooks.addAll(BookJsonParser.fromJson(result, listAuthors));
                 if (currentFragment instanceof AllBooksFragment) {
                     ((AllBooksFragment) currentFragment).notifyInternalAdapter();
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void configNavigation() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
   }
 
     private void initComponents() {
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                     currentFragment = AllBooksFragment.newInstance(listBooks);
                     ft.replace(R.id.main_frame_container, currentFragment);
                     ft.commit();
-
                 }
                 else if(item.getItemId() == R.id.nav_favorite){
                     currentFragment = new FavoriteBooksFragment();
@@ -123,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_books_read) {
                     currentFragment = new BooksReadFragment();
+                    openFragment();
+                } else if(item.getItemId() == R.id.nav_settings){
+                    currentFragment= new SettingsFragment();
                     openFragment();
                 }
 
@@ -138,12 +143,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+//    setare titlu pentru fiecare fragment
+    public void setActionBatTitle(String title){
+        toolbar.setTitle(title);
+    }
+
+
     /*********   FRAGMENTE    *********/
 
     private void openFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
+
     }
 
     private void openDefaultFragment(Bundle saveInstanceState){
@@ -151,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragment =  AllBooksFragment.newInstance(listBooks);
             openFragment();
             navigationView.setCheckedItem(R.id.nav_all_books);
+
         }
     }
 

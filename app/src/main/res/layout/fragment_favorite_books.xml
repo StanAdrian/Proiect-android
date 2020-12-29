@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.FavoriteBooksFragment">
+    tools:context=".fragments.FavoriteBooksFragment"
+    android:id="@+id/favorite_fragment">
 
     <ListView
         android:id="@+id/lv_favorite_book"

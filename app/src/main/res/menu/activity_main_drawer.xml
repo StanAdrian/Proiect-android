@@ -16,5 +16,10 @@
             android:id="@+id/nav_books_read"
             android:icon="@drawable/ic_baseline_book_24"
             android:title="@string/menu_books_read" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/menu_settings"
+            />
     </group>
 </menu>

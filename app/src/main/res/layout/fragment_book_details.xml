@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:text="Add to favorites"
+        android:text="@string/btn_f_bookDetails_add_to_favorites"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_f_book_details_removeFromFavorite" />
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:text="remove book"
+        android:text="@string/btn_f_bookDetails_remove_book_nfrom_favorites"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_f_book_details_addToFavorite"
         app:layout_constraintStart_toStartOf="parent" />
