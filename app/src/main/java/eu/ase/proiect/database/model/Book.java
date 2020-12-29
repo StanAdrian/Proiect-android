@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity(tableName = "books")
 public class Book implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     private long id;
     @ColumnInfo(name = "title")

@@ -68,7 +68,6 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
             }
         });
 
-        FavoriteBooksFragment favFrg = this;
 
         return view;
     }

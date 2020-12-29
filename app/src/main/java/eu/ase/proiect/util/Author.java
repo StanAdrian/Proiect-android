@@ -1,6 +1,10 @@
 package eu.ase.proiect.util;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,26 +12,40 @@ import java.util.List;
 import eu.ase.proiect.R;
 import eu.ase.proiect.database.model.Book;
 
+@Entity(tableName = "authors")
 public class Author implements Serializable {
-    private int idAuthor;
+
+
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "idAuthor")
+    private long idAuthor;
+    @ColumnInfo(name = "nameAuthor")
     private String name;
+    @ColumnInfo(name = "shortBiography")
     private String shortBiography;
+    @ColumnInfo(name = "imgUrlAuthor")
     private String imgUrlAuthor;
 //    private List<Book> listBooks;
 
-    public Author(int id, String name, String shortBiography, String imgUrlAuthor) {
-        this.idAuthor = id;
+    @Ignore
+    public Author(){
+
+    }
+
+    public Author(long idAuthor, String name, String shortBiography, String imgUrlAuthor) {
+        this.idAuthor = idAuthor;
         this.name = name;
         this.shortBiography = shortBiography;
         this.imgUrlAuthor = imgUrlAuthor;
     }
 
-    public int getId() {
+
+    public long getIdAuthor() {
         return idAuthor;
     }
 
-    public void setId(int id) {
-        this.idAuthor = id;
+    public void setIdAuthor(long idAuthor) {
+        this.idAuthor = idAuthor;
     }
 
     public String getName() {

@@ -59,12 +59,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
-        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
-        listBooks.add(b);
-        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
-                308, 21, 4.2f, R.drawable.gatsby2  /* NU MERGE DACA PUI INT-ul xml.ului: 700094  */));
-        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
-//        firebaseFirestore.collection("Carti").document("solo_leveling")
+
+
+
+
+//      firebaseFirestore.collection("Carti").document("solo_leveling")
 //                .get()
 //                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //                    @Override
@@ -74,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-        User.mapFavoriteBook.put(100l,b);
+//        User.mapFavoriteBook.put(b.getId(),b);
+
         initComponents();
 
 
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     /*********   FRAGMENTE    *********/
 
     private void openFragment() {
-        toolbar.setTitle(R.string.title_all_books);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
@@ -188,5 +188,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
 
 }
