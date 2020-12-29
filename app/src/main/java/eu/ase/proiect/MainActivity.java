@@ -4,7 +4,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -34,7 +41,7 @@ import eu.ase.proiect.util.User;
 public class MainActivity extends AppCompatActivity {
 
     public static String URL_BOOKS="https://jsonkeeper.com/b/4YYJ";
-
+    private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -57,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
                 308, 21, 4.2f, R.drawable.gatsby2  /* NU MERGE DACA PUI INT-ul xml.ului: 700094  */));
         listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault));
+//        firebaseFirestore.collection("Carti").document("solo_leveling")
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        Book carte = documentSnapshot.toObject(Book.class);
+//                        listBooks.add(carte);
+//                    }
+//                });
+
         User.mapFavoriteBook.put(100l,b);
         initComponents();
 
@@ -84,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 listBooks.addAll(BookJsonParser.fromJson(result, listAuthors));
                 if (currentFragment instanceof AllBooksFragment) {
                     ((AllBooksFragment) currentFragment).notifyInternalAdapter();
+                }
+                if (currentFragment instanceof FavoriteBooksFragment){
+                    ((FavoriteBooksFragment) currentFragment).notifyInternalAdapter();
                 }
             }
         };
