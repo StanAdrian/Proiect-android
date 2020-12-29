@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
-import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
@@ -76,33 +75,21 @@ public class MainActivity extends AppCompatActivity {
 
 //        User.mapFavoriteBook.put(b.getId(),b);
 
-        getDataFromFireBase.getaBook(listBooks);
-        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "", 248, 11, 2.8f, R.drawable.book1);
-        listBooks.add(b);
-        listBooks.add(new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "",
-                308, 21, 4.2f, R.drawable.gatsby2  /* NU MERGE DACA PUI INT-ul xml.ului: 700094  */));
-        listBooks.add(new Book(102,"The fault in our stars","Descriere","John Green", "", 321, 34, 4.8f, R.drawable.thefault));
-        User.mapFavoriteBook.put(100l,b);
         initComponents();
-        if (currentFragment instanceof AllBooksFragment) {
-            ((AllBooksFragment) currentFragment).notifyInternalAdapter();
-        }
-
 
 
         openDefaultFragment(savedInstanceState);
 
         //in acest moment functioneaza mecanismul de preluare date din url, trebuie structurat un json pe 3 nivele
         //dupa punem url-ul in variabila noastra url si ne aduce informatia in aplicatie
-        //trebuie modificat jsonu
-        //getBooksFromNetwork();
+        getBooksFromNetwork();
 
     }
 
     private void getBooksFromNetwork(){
-//        Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
-//        Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
-//        asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
+        Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
+        Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
+        asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
     }
 
 //    Preluare carti din JSON

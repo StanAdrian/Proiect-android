@@ -92,6 +92,7 @@ public class AllBooksFragment extends Fragment {
 
         //adaug adapter
         addBookAdapter();
+//
 
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
