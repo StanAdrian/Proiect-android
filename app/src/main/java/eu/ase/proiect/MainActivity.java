@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.fragments.AllBooksFragment;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
-
+        //getDataFromFireBase.getaBook(listBooks);
 
 
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         //in acest moment functioneaza mecanismul de preluare date din url, trebuie structurat un json pe 3 nivele
         //dupa punem url-ul in variabila noastra url si ne aduce informatia in aplicatie
-        getBooksFromNetwork();
+        //getBooksFromNetwork();
 
     }
 

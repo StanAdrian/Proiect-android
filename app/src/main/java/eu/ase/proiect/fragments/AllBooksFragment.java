@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
@@ -137,7 +138,7 @@ public class AllBooksFragment extends Fragment {
             @Override
             public void runResultOnUiThread(List<Book> result) {
                 if(result != null){
-                  //  listBooks.clear();
+                    listBooks.clear();
                     listBooks.addAll(result);
                     notifyInternalAdapter();
                 }
