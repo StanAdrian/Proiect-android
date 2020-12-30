@@ -62,7 +62,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
         boolean b = false;
         if(book != null) {
             addBookTitle(view,book.getTitle());
-            addBookAuthor(view, book.getAuthor());
+
+/************************            TODO           **************************************/
+//            TODO get nameAuthor from db - table Authors
+            addBookAuthor(view, "Nume Autor");
+
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
@@ -114,8 +118,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 imageView.setImageResource(drawableResource);
                 }
                 catch (Exception e){
-                    if (imgUrl!=null || imgUrl!=""){
-                        GlideApp.with(context).load(storageReference).into(imageView);
+                    imageView.setImageResource(R.drawable.ic_uploading_photo);
+                    e.printStackTrace();
+//                    if (imgUrl!=null || imgUrl!=""){
+//                        GlideApp.with(context).load(storageReference).into(imageView);
 //                        try {
 //                            final File localFile = File.createTempFile("images", "png");
 //                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -130,11 +136,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 //                            x.printStackTrace();
 //                        }
 
-                    }
-                    else {
-                        imageView.setImageResource(R.drawable.ic_uploading_photo);
-                        e.printStackTrace();
-                    }
+//                  }
+//                    else {
+//                        imageView.setImageResource(R.drawable.ic_uploading_photo);
+//                        e.printStackTrace();
+//                    }
 
                 }
             }

@@ -46,10 +46,14 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Fragment currentFragment;
+    private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
+
+
+
+
     private ArrayList<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
 
-    private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
 
 
@@ -80,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         openDefaultFragment(savedInstanceState);
 
-        //in acest moment functioneaza mecanismul de preluare date din url, trebuie structurat un json pe 3 nivele
-        //dupa punem url-ul in variabila noastra url si ne aduce informatia in aplicatie
+
+//        Preluare carti din url
         getBooksFromNetwork();
 
     }
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
         asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
     }
+
 
 //    Preluare carti din JSON
     private Callback<String> getMainThreadOperationForBooks() {
