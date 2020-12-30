@@ -43,7 +43,7 @@ public class BookService {
                 if(id == -1){
                     return null;
                 }
-                book.setId(id);
+                book.setIdBook(id);
                 return book;
             }
         };

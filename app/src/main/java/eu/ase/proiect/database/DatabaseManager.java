@@ -14,7 +14,7 @@ import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.util.Author;
 import eu.ase.proiect.util.DateConverter;
 
-@Database(entities = {Book.class, Author.class}, exportSchema = false, version = 3)
+@Database(entities = {Book.class, Author.class}, exportSchema = false, version = 5)
 @TypeConverters({DateConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 

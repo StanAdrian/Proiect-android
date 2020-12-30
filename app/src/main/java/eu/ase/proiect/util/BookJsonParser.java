@@ -46,12 +46,14 @@ public class BookJsonParser {
                     int review = objectBookDetails.getInt(REVIEW);
                     float rating = (float) objectBookDetails.getDouble(RATING);
                     int drawableResource = objectBookDetails.getInt(DRAWABLE_RESOURCE);
+                    boolean is_favorite = false;
+                    boolean is_read = false;
                     JSONObject objectAuthor = objectBookDetails.getJSONObject(AUTHOR);
                         int idAuthor = objectAuthor.getInt(ID_AUTHOR);
                         String nameAuthor = objectAuthor.getString(NAME);
                         String shortBiography = objectAuthor.getString(SHORT_BIOGRAPHY);
                         String imgUrlAuthor = objectAuthor.getString(IMG_URL_AUTHOR);
-                Book book = new Book(idBook,title,description,nameAuthor,imgUrlBook,nbPages,review,rating,drawableResource);
+                Book book = new Book(idBook,title,description,imgUrlBook,nbPages,review,rating,drawableResource, is_favorite, is_read, idAuthor);
                 resultsBooks.add(book);
 
                 Author author = new Author(idAuthor,nameAuthor,shortBiography,imgUrlAuthor);

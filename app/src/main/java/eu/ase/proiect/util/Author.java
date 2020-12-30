@@ -25,7 +25,8 @@ public class Author implements Serializable {
     private String shortBiography;
     @ColumnInfo(name = "imgUrlAuthor")
     private String imgUrlAuthor;
-//    private List<Book> listBooks;
+
+
 
     @Ignore
     public Author(){

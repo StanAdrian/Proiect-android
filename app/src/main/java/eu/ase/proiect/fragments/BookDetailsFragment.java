@@ -54,6 +54,10 @@ public class BookDetailsFragment extends Fragment {
 
         initComponents(view);
 
+        evClickBtnAddToFavorite();
+        evClickBtnRemoveFromFavorite();
+
+
 
         return view;
     }
@@ -65,12 +69,66 @@ public class BookDetailsFragment extends Fragment {
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
 
-//        daca cartea exista in lista de favorite, btn Add e invizibil
-//        if(User.mapFavoriteBook.containsKey(book.getId())) {
-//            btnAddToFavorites.setVisibility(view.INVISIBLE);
-//        }
 
         //preiau obiectul book din fragmentul AllBookFragment
+        getBookFromAllBookFragment();
+
+//              setez titlu
+        ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_book_details));
+
+
+//           daca cartea exista in lista de favorite, btn Add e invizibil, altfel btn Remove e invizibil
+        updateVisibilityButtons(view);
+
+
+        addBookAdapter();
+    }
+
+    private void updateVisibilityButtons(View view) {
+        if(User.mapFavoriteBook.containsKey(book.getIdBook())) {
+            btnAddToFavorites.setVisibility(view.INVISIBLE);
+            btnRemoveFromFavorites.setVisibility(view.VISIBLE);
+        } else{
+            btnAddToFavorites.setVisibility(view.VISIBLE);
+            btnRemoveFromFavorites.setVisibility(view.INVISIBLE);
+        }
+    }
+
+    private void evClickBtnRemoveFromFavorite() {
+        // eveniment click buton RemoveBookFromFavorites
+        btnRemoveFromFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(User.mapFavoriteBook.containsKey(book.getIdBook())){
+                    User.mapFavoriteBook.remove(book.getIdBook());
+                    updateVisibilityButtons(getView());
+                    Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(), getString(R.string.book_no_exist, book.getTitle()),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void evClickBtnAddToFavorite() {
+        //         eveniment click buton AddBookToFavorites
+        btnAddToFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!User.mapFavoriteBook.containsKey(book.getIdBook())){
+                    User.mapFavoriteBook.put(book.getIdBook(),book);
+                    updateVisibilityButtons(getView());
+                    Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    //    preluare book din allbookFragment
+    private void getBookFromAllBookFragment() {
         Bundle bundle = getArguments();
         book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
         if(book != null) {
@@ -79,46 +137,6 @@ public class BookDetailsFragment extends Fragment {
         } else {
             Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
         }
-
-//              setez titlu
-        ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_book_details));
-
-//         eveniment click buton AddBookToFavorites
-        btnAddToFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(!User.mapFavoriteBook.containsKey(book.getId())){
-
-                    User.mapFavoriteBook.put(book.getId(),book);
-
-                    Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
-
-
-                } else {
-                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_LONG).show();
-                }
-
-
-
-            }
-        });
-
-        // eveniment click buton RemoveBookFromFavorites
-        btnRemoveFromFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(User.mapFavoriteBook.containsKey(book.getId())){
-                    User.mapFavoriteBook.remove(book.getId());
-                    Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(getContext(), getString(R.string.book_no_exist, book.getTitle()),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        addBookAdapter();
     }
 
 
