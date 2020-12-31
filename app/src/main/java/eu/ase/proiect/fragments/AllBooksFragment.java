@@ -11,13 +11,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
+import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.util.BookAdapter;
 
 /**
@@ -28,7 +32,7 @@ public class AllBooksFragment extends Fragment {
     public static final String BOOK_DETAILS_KEY = "book_details_key";
     public static final String BOOKS_KEY="book_key";
 
-
+    private BookService bookService;
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
 
@@ -65,6 +69,15 @@ public class AllBooksFragment extends Fragment {
             }
         });
 
+//        Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
+//                308, 21, 4.2f, R.drawable.gatsby2);
+//        Book b2 = new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault);
+//
+////        inserare carte in baza de date
+//          Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
+//          bookService.insertBook(insertBookIntoDbCallback(), b);
+//          bookService.insertBook(insertBookIntoDbCallback(), b1);
+//          bookService.insertBook(insertBookIntoDbCallback(), b2);
 
         return view;
     }
@@ -84,7 +97,9 @@ public class AllBooksFragment extends Fragment {
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
-
+//        lista de carti este populata cu cartile din baza de date
+        bookService = new BookService(getContext().getApplicationContext());
+        bookService.getAll(getAllBooksFromDbCallback());
   }
 
     public static AllBooksFragment newInstance(ArrayList<Book> listBooks) {
@@ -114,6 +129,33 @@ public class AllBooksFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+
+
+    /*************          DATABASE         ******************/
+    public Callback<List<Book>> getAllBooksFromDbCallback(){
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+                if(result != null){
+                  //  listBooks.clear();
+                    listBooks.addAll(result);
+                    notifyInternalAdapter();
+                }
+            }
+        };
+    }
+
+    public Callback<Book> insertBookIntoDbCallback(){
+        return new Callback<Book>() {
+            @Override
+            public void runResultOnUiThread(Book result) {
+                if(result != null){
+                    listBooks.add(result);
+                    notifyInternalAdapter();
+                }
+            }
+        };
+    }
 
 
 

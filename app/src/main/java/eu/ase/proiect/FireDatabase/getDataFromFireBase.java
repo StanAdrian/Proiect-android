@@ -27,8 +27,12 @@ public class getDataFromFireBase {
                     }
                 });
     }
+
+
    /* public static void getaCarteDinDB(List<Book> listBooks)
     {
         databaseReference.child().
     }*/
-}
+
+
+    }

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
-
+        //getDataFromFireBase.getaBook(listBooks);
 
 
         authorService = new AuthorService(getApplicationContext());
