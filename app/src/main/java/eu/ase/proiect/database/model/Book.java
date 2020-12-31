@@ -1,17 +1,17 @@
 package eu.ase.proiect.database.model;
 
-import android.os.Parcelable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.google.firebase.storage.FirebaseStorage;
-
 import java.io.Serializable;
 
 @Entity(tableName = "books")
+//, foreignKeys = @ForeignKey(entity = Author.class,
+//                                            parentColumns = "idAuthor",
+//                                            childColumns = "idAuthor",
+//                                            onDelete = CASCADE))
 public class Book implements Serializable {
 
     @PrimaryKey(autoGenerate = false)
@@ -32,10 +32,10 @@ public class Book implements Serializable {
     @ColumnInfo(name = "drawableResource")
     private int drawableResource; // this for testing purpos...
     @ColumnInfo(name = "is_favorite")
-    private boolean is_favorite;
+    private int is_favorite;
     @ColumnInfo(name = "is_read")
-    private boolean is_read;
-    @ColumnInfo(name = "idAuthor")
+    private int is_read;
+    @ColumnInfo(name = "idAuthor", index = true)
     private long idAuthor;
 
 
@@ -44,7 +44,7 @@ public class Book implements Serializable {
     }
 
     public Book(long idBook, String title, String description, String imgUrl, int pages, int review, float rating, int drawableResource,
-                boolean is_favorite, boolean is_read, long idAuthor) {
+                int is_favorite, int is_read, long idAuthor) {
         this.idBook = idBook;
         this.title = title;
         this.description = description;
@@ -117,19 +117,19 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
     }
 
-    public boolean isIs_favorite() {
+    public int getIs_favorite() {
         return is_favorite;
     }
 
-    public void setIs_favorite(boolean is_favorite) {
+    public void setIs_favorite(int is_favorite) {
         this.is_favorite = is_favorite;
     }
 
-    public boolean isIs_read() {
+    public int getIs_read() {
         return is_read;
     }
 
-    public void setIs_read(boolean is_read) {
+    public void setIs_read(int is_read) {
         this.is_read = is_read;
     }
 

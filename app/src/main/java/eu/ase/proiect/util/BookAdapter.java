@@ -1,11 +1,6 @@
 package eu.ase.proiect.util;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableResource;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import eu.ase.proiect.Glide.GlideApp;
-import eu.ase.proiect.Glide.MyAppGlideModule;
 import eu.ase.proiect.R;
 import eu.ase.proiect.database.model.Book;
 
@@ -59,7 +42,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
                         @NonNull ViewGroup parent) {
         View view = inflater.inflate(resource,parent,false);
         Book book = listBooks.get(position);
-        boolean b = false;
+
         if(book != null) {
             addBookTitle(view,book.getTitle());
 
@@ -70,10 +53,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
-            if(User.mapFavoriteBook.containsValue(book)){
-                b = true;
+            if(book.getIs_favorite()==1){
+                addFavoriteImg(view, true);
             }
-            addFavoriteImg(view, b);
+
         }
 
         return view;
@@ -109,10 +92,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     private void addBookImg(View view, String imgUrl, int drawableResource){
         final ImageView imageView = view.findViewById(R.id.item_book_img);
-        FirebaseStorage storage=FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference().child("Img_Carti/"+imgUrl);
-// R.drawable.ic_a   MERGE
-//        int NU MERGE
+//        FirebaseStorage storage=FirebaseStorage.getInstance();
+//        StorageReference storageReference = storage.getReference().child("Img_Carti/"+imgUrl);
+
 
                 try {
                 imageView.setImageResource(drawableResource);
@@ -148,10 +130,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     private void addFavoriteImg(View view, boolean fav){
         ImageView imageView = view.findViewById(R.id.item_img_favorite);
-        if (!fav) {
-            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
-        } else {
+        if (fav == true) {
             imageView.setImageResource(R.drawable.ic_favorite_red_24);
+        } else {
+            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
         }
 
     }

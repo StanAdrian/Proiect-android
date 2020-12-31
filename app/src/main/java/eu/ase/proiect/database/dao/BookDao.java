@@ -20,6 +20,9 @@ public interface BookDao {
     @Insert
     long insert (Book book);
 
+    @Query("select * from books where is_favorite = 1")
+    List<Book> getAllBooksFavorite();
+
     //int ul rep. nr. de randuri afectate, -1 daca sunt probleme
     @Update
     int update (Book book);

@@ -16,13 +16,13 @@ import android.widget.ListView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
+import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.util.BookAdapter;
-import eu.ase.proiect.util.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +32,8 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
     public static final String BOOK_DETAILS_KEY = "book_details_key";
     private ListView lvFavoriteBooks;
     private List<Book> listFavoriteBooks = new ArrayList<>();
+    private BookService bookService;
+
 
     public FavoriteBooksFragment() {
         // Required empty public constructor
@@ -75,14 +77,17 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
     private void initComponents(View view) {
 
         lvFavoriteBooks = view.findViewById(R.id.lv_favorite_book);
-        listFavoriteBooks.clear();
-        for (Map.Entry<Long, Book> item : User.mapFavoriteBook.entrySet()) {
-            listFavoriteBooks.add(item.getValue());
-        }
+
         addBookAdapter();
+
+        //      Preluare lista carti favorite din Db SQLite
+        bookService = new BookService(getContext().getApplicationContext());
+        bookService.getAll(getAllBooksDbCallback());
 
         //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_favorite_book));
+
+
 
     }
 
@@ -100,6 +105,29 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
         adapter.notifyDataSetChanged();
     }
 
+    /*************          DATABASE         ******************/
+    private Callback<List<Book>> getAllBooksDbCallback(){
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+                if(result != null){
+                    listFavoriteBooks.clear();
+                    listFavoriteBooks.addAll(result);
+                    notifyInternalAdapter();
+                }
+            }
+        };
+    }
 
+    private Callback<List<Book>> getAllBooksFavoriteDbCallback(){
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+                listFavoriteBooks.clear();
+                listFavoriteBooks.addAll(result);
+                notifyInternalAdapter();
+            }
+        };
+    }
 
 }

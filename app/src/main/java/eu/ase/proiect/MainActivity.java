@@ -4,14 +4,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,15 +22,16 @@ import java.util.concurrent.Callable;
 
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
+import eu.ase.proiect.database.service.AuthorService;
+import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.fragments.AllBooksFragment;
 import eu.ase.proiect.fragments.BooksReadFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.fragments.SettingsFragment;
 import eu.ase.proiect.network.HttpManager;
-import eu.ase.proiect.util.Author;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.util.BookJsonParser;
-import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,14 +43,11 @@ public class MainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
-
-
-
     private ArrayList<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
 
-
-
+    private AuthorService authorService;
+    private BookService bookService;
 
 
     @Override
@@ -63,6 +55,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configNavigation();
+
+
+
+        authorService = new AuthorService(getApplicationContext());
+        bookService = new BookService(getApplicationContext());
+
+//      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
+        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!", "URLImage", 248, 11, 2.8f, R.drawable.book1, 0, 0, 200);
+          Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.", "URLImage",
+                  308, 21, 4.2f, R.drawable.gatsby2, 0,0,200);
+          Book b2 = new Book(102,"The fault in our stars","Descriere", "URLImage", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 200);
+
+          listBooks.add(b);
+          listBooks.add(b1);
+          listBooks.add(b2);
+
+
+          //        Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
+//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a);
+
+          //          bookService.delete(deleteBookFromDbCallback(),b);
+//          bookService.delete(deleteBookFromDbCallback(),b1);
+//          bookService.delete(deleteBookFromDbCallback(),b2);
+
+//////        inserare carte in baza de date
+//          bookService.insertBook(insertBookIntoDbCallback(), b);
+//          bookService.insertBook(insertBookIntoDbCallback(), b1);
+//          bookService.insertBook(insertBookIntoDbCallback(), b2);
+
+//          bookService.getAll(getAllBooksDbCallback());
 
 
 
@@ -77,16 +99,16 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-//        User.mapFavoriteBook.put(b.getId(),b);
 
         initComponents();
+
+//        Preluare carti din url
+        getBooksFromNetwork();
 
 
         openDefaultFragment(savedInstanceState);
 
 
-//        Preluare carti din url
-        getBooksFromNetwork();
 
     }
 
@@ -196,6 +218,57 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+/*************   DATABASE         *****************/
+    public Callback<Author> insertAuthorIntoDbCallback(){
+        return new Callback<Author>() {
+            @Override
+            public void runResultOnUiThread(Author result) {
+                if(result != null){
+                    listAuthors.add(result);
+                }
+            }
+        };
+    }
+
+
+    private Callback<Book> insertBookIntoDbCallback(){
+        return new Callback<Book>() {
+            @Override
+            public void runResultOnUiThread(Book result) {
+                if(result != null){
+                    listBooks.add(result);
+//                    notifyAdapter();
+                }
+            }
+        };
+    }
+
+    private Callback<List<Book>> getAllBooksDbCallback(){
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+//                listBooks.clear();
+                listBooks.addAll(result);
+
+            }
+        };
+    }
+
+    private Callback<Integer> deleteBookFromDbCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+
+                if(result != -1){
+
+                }
+            }
+        };
+
+    }
 
 
 }
