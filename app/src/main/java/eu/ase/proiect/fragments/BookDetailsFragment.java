@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +68,8 @@ public class BookDetailsFragment extends Fragment {
 //        initializare views
         lvBookDetails = view.findViewById(R.id.lv_book_details);
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
+        //se poate face scroll in descrierea textview-ului
+        tvDescription.setMovementMethod(new ScrollingMovementMethod());
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
 
@@ -103,6 +107,9 @@ public class BookDetailsFragment extends Fragment {
                     User.mapFavoriteBook.remove(book.getIdBook());
                     updateVisibilityButtons(getView());
                     Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
+                    //faca neagra inima
+                    ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+                    favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
                 }
                 else{
                     Toast.makeText(getContext(), getString(R.string.book_no_exist, book.getTitle()),Toast.LENGTH_SHORT).show();
@@ -120,6 +127,9 @@ public class BookDetailsFragment extends Fragment {
                     User.mapFavoriteBook.put(book.getIdBook(),book);
                     updateVisibilityButtons(getView());
                     Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_LONG).show();
+                    //faca rosu inima
+                    ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+                    favimg.setImageResource(R.drawable.ic_favorite_red_24);
                 } else {
                     Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_LONG).show();
                 }

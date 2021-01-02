@@ -47,7 +47,6 @@ public class AllBooksFragment extends Fragment {
                              Bundle savedInstanceState) {
 //        Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
-
 //        Initializare componente + adaugare adapter + setare titlu + preluare lista carti din main activity
         initComponents(view);
 
@@ -99,8 +98,8 @@ public class AllBooksFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
 //        lista de carti este populata cu cartile din baza de date
-        bookService = new BookService(getContext().getApplicationContext());
-        bookService.getAll(getAllBooksFromDbCallback());
+//        bookService = new BookService(getContext().getApplicationContext());
+//        bookService.getAll(getAllBooksFromDbCallback());
   }
 
     public static AllBooksFragment newInstance(ArrayList<Book> listBooks) {
@@ -113,11 +112,7 @@ public class AllBooksFragment extends Fragment {
         bundle.putSerializable(BOOKS_KEY, listBooks);
         fragment.setArguments(bundle);
         return fragment;
-
     }
-
-
-
 
 
     private void addBookAdapter(){
@@ -138,7 +133,7 @@ public class AllBooksFragment extends Fragment {
             @Override
             public void runResultOnUiThread(List<Book> result) {
                 if(result != null){
-                    listBooks.clear();
+                   // listBooks.clear();
                     listBooks.addAll(result);
                     notifyInternalAdapter();
                 }
@@ -157,9 +152,4 @@ public class AllBooksFragment extends Fragment {
             }
         };
     }
-
-
-
-
-
 }

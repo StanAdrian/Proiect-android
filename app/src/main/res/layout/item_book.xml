@@ -98,12 +98,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:contentDescription="@string/arata_ca_e_favorit"
         app:layout_constraintEnd_toEndOf="@+id/container"
         app:layout_constraintTop_toTopOf="@+id/container"
         app:srcCompat="@drawable/ic_favorite_black_24dp"
-        app:tint="@color/fav_icon_tint"
-        tools:ignore="VectorDrawableCompat"
-       />
+        tools:ignore="VectorDrawableCompat" />
 
 
 

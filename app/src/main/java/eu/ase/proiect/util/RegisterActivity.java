@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,9 +27,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Random;
 
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
@@ -41,8 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
     Uri pickedImgUri;
     private EditText nume_utilizator,email_utilizator,parola_utilizator,parola2_utilizator;
     private ProgressBar loadingProgress;
-
+    private Spinner spinner;
     private FirebaseAuth autentificare_firebase;
+    private FirebaseFirestore inregistrare_user_in_firebase;
     private Button button_register;
 
 
@@ -57,7 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
         parola2_utilizator=findViewById(R.id.reg_Password2);
         loadingProgress=findViewById(R.id.reg_progressBar);
         loadingProgress.setVisibility(View.INVISIBLE);
+        spinner=findViewById(R.id.reg_spinner);
 
+        inregistrare_user_in_firebase=FirebaseFirestore.getInstance();
         autentificare_firebase = FirebaseAuth.getInstance();
         button_register=findViewById(R.id.reg_button);
         button_register.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void CreeazaCont(final String nume, String email, String parola) {
+    private void CreeazaCont(final String nume, final String email, final String parola) {
         autentificare_firebase.createUserWithEmailAndPassword(email,parola)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -107,7 +114,12 @@ public class RegisterActivity extends AppCompatActivity {
                             arataMesaj("Cont Creeat!");
                             //acum updatam contul utilizatorului cu numele si poza
                             UpdateUserInfo( nume ,pickedImgUri,autentificare_firebase.getCurrentUser());
-
+                            Random r = new Random();
+                            int randomNumber = r.nextInt(100);
+                            String sex=spinner.getSelectedItem().toString();
+                            User utilizator=new User(randomNumber,email,nume,parola,sex);
+                            String id_str= String.valueOf(randomNumber);
+                            inregistrare_user_in_firebase.collection("Users").document(id_str).set(utilizator);
                         }
                         else {
                             arataMesaj("creearea a dat gres!");

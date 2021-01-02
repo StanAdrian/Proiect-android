@@ -59,7 +59,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
                         @NonNull ViewGroup parent) {
         View view = inflater.inflate(resource,parent,false);
         Book book = listBooks.get(position);
-        boolean b = false;
         if(book != null) {
             addBookTitle(view,book.getTitle());
 
@@ -71,12 +70,25 @@ public class BookAdapter extends ArrayAdapter<Book> {
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
             if(User.mapFavoriteBook.containsValue(book)){
-                b = true;
+                addFavoriteImg(view);
             }
-            addFavoriteImg(view, b);
+            else {
+                addNOTFavoriteImg(view);
+            }
+            //addFavoriteImg(view, b);
         }
 
         return view;
+    }
+
+    private void addNOTFavoriteImg(View view) {
+        ImageView favimg=view.findViewById(R.id.item_img_favorite);
+        favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
+    }
+
+    private void addFavoriteImg(View view) {
+        ImageView favimg=view.findViewById(R.id.item_img_favorite);
+        favimg.setImageResource(R.drawable.ic_favorite_red_24);
     }
 
     private void addBookTitle(View view, String title) {
@@ -118,10 +130,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 imageView.setImageResource(drawableResource);
                 }
                 catch (Exception e){
-                    imageView.setImageResource(R.drawable.ic_uploading_photo);
-                    e.printStackTrace();
-//                    if (imgUrl!=null || imgUrl!=""){
-//                        GlideApp.with(context).load(storageReference).into(imageView);
+                    if (imgUrl!=null || imgUrl!=""){
+                        GlideApp.with(context).load(storageReference).into(imageView);
 //                        try {
 //                            final File localFile = File.createTempFile("images", "png");
 //                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -136,25 +146,24 @@ public class BookAdapter extends ArrayAdapter<Book> {
 //                            x.printStackTrace();
 //                        }
 
-//                  }
-//                    else {
-//                        imageView.setImageResource(R.drawable.ic_uploading_photo);
-//                        e.printStackTrace();
-//                    }
-
+                  }
+                    else {
+                        imageView.setImageResource(R.drawable.ic_uploading_photo);
+                        e.printStackTrace();
+                    }
                 }
             }
 
 
-    private void addFavoriteImg(View view, boolean fav){
-        ImageView imageView = view.findViewById(R.id.item_img_favorite);
-        if (!fav) {
-            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
-        } else {
-            imageView.setImageResource(R.drawable.ic_favorite_red_24);
-        }
-
-    }
+//    private void addFavoriteImg(View view, boolean fav){
+//        ImageView imageView = view.findViewById(R.id.item_img_favorite);
+//        if (fav) {
+//            imageView.setImageResource(R.drawable.ic_favorite_red_24);
+//        } else {
+//            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
+//        }
+//
+//    }
 
 
     private void populateFromView(String string, TextView textView) {

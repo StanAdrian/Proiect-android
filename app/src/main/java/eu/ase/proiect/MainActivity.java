@@ -1,15 +1,22 @@
 package eu.ase.proiect;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -26,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
+import eu.ase.proiect.Glide.GlideApp;
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.fragments.AllBooksFragment;
@@ -47,53 +56,53 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Fragment currentFragment;
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
-
-
-
-
     private ArrayList<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //incerc sa fac load la poza de profil
+
+
+        //testex sa vad daca porneste cu ce e in baza de date
+        getDataFromFireBase.getBooks(listBooks);
+
         configNavigation();
-        //getDataFromFireBase.getaBook(listBooks);
 
-
-
-//      firebaseFirestore.collection("Carti").document("solo_leveling")
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        Book carte = documentSnapshot.toObject(Book.class);
-//                        listBooks.add(carte);
-//                    }
-//                });
 
 //        User.mapFavoriteBook.put(b.getId(),b);
-
         initComponents();
-
-
         openDefaultFragment(savedInstanceState);
-
-
 //        Preluare carti din url
-        getBooksFromNetwork();
+        //getBooksFromNetwork();
 
+
+    }
+
+    private void incarca_profil() {
+        View navHeader=navigationView.getHeaderView(0);
+        ImageView poza_profil=navHeader.findViewById(R.id.menu_imageView);
+        TextView username_menu=navHeader.findViewById(R.id.menu_username);
+        TextView usernmail_menu=navHeader.findViewById(R.id.menu_usermail);
+        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+        String mail=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        GlideApp.with(navHeader).load(uri).into(poza_profil);
+        //poza_profil.setImageURI(uri);
+        username_menu.setText(name);
+        usernmail_menu.setText(mail);
     }
 
     private void getBooksFromNetwork(){
         Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
         Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
         asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
+
+        //testex sa vad daca porneste cu ce e in baza de date
+        getDataFromFireBase.getBooks(listBooks);
     }
 
 
@@ -102,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         return new Callback<String>() {
             @Override
             public void runResultOnUiThread(String result) {
+
 //                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                 listBooks.addAll(BookJsonParser.fromJson(result, listAuthors));
                 if (currentFragment instanceof AllBooksFragment) {
@@ -164,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        incarca_profil();
 
     }
 
@@ -193,9 +204,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
 
 }
