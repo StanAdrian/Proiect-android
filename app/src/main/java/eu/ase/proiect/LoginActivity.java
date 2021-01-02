@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,19 +27,15 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar baraProgresLogIN;
     private ImageView imagine_utilizator;
 
+    private CheckBox checkBox_save;
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        nume_utilizator=findViewById(R.id.log_username);
-        email_utilizator=findViewById(R.id.log_username);
-        parola_utilizator=findViewById(R.id.log_password);
-        btn_log_in=findViewById(R.id.log_in_btn);
-        btn_sign_up=findViewById(R.id.log_signup_btn);
-        baraProgresLogIN=findViewById(R.id.log_progressBar);
-        imagine_utilizator=findViewById(R.id.log_ImageView);
-        mAuth=FirebaseAuth.getInstance();
+        initComponents();
 
         imagine_utilizator.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +67,25 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
                     signIN(mail,parola);
+
                 }
             }
         });
+    }
+
+    private void initComponents() {
+        nume_utilizator=findViewById(R.id.log_username);
+        email_utilizator=findViewById(R.id.log_username);
+        parola_utilizator=findViewById(R.id.log_password);
+        btn_log_in=findViewById(R.id.log_in_btn);
+        btn_sign_up=findViewById(R.id.log_signup_btn);
+        baraProgresLogIN=findViewById(R.id.log_progressBar);
+        imagine_utilizator=findViewById(R.id.log_ImageView);
+        mAuth= FirebaseAuth.getInstance();
+        checkBox_save = findViewById(R.id.checkBox_save_user_and_password);
+
+        preferences = getSharedPreferences("profileSharedPref", MODE_PRIVATE);
+
     }
 
     private void signIN(String mail, String parola) {
@@ -81,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
         public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful())
             {
+                saveLoginDataInSharedPreferences();
+
+
                 baraProgresLogIN.setVisibility(View.INVISIBLE);
                 btn_log_in.setVisibility(View.VISIBLE);
                 //functie de trimitere in activitatea principala
@@ -93,6 +110,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     });
+    }
+
+
+
+    private void saveLoginDataInSharedPreferences() {
+        //                scriu in fisierul de preferinta numele si parola
+        boolean checkBoxSave = checkBox_save.isChecked();
+
+//                salvarea in fisierul de preferinte
+        SharedPreferences.Editor editor =preferences.edit();
+        editor.putBoolean("saveLoginData",checkBoxSave);
+        editor.putString("email",email_utilizator.getText().toString());
+        editor.putString("password", parola_utilizator.getText().toString());
+        editor.apply();
     }
 
     private void updateUI() {

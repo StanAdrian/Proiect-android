@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:background="@drawable/reg_btn_style"
-        android:text="Log In"
+        android:text="@string/log_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/log_password" />
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/reg_btn_style"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,5 +85,16 @@
         app:layout_constraintEnd_toEndOf="@+id/log_in_btn"
         app:layout_constraintStart_toStartOf="@+id/log_in_btn"
         app:layout_constraintTop_toTopOf="@+id/log_in_btn" />
+
+    <CheckBox
+        android:id="@+id/checkBox_save_user_and_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/save_username_and_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/log_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
