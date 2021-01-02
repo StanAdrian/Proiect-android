@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
@@ -39,6 +37,9 @@ public class AllBooksFragment extends Fragment {
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
+    private List<Book> listFavoriteBooks = new ArrayList<Book>();
+
+    private BookService bookService;
 
     public AllBooksFragment() {
         // Required empty public constructor
@@ -81,13 +82,15 @@ public class AllBooksFragment extends Fragment {
     private void initComponents(View view) {
         //initializare view
         listViewAllBooks = view.findViewById(R.id.lv_book);
+        bookService = new BookService(getContext().getApplicationContext());
 
 //        preiau lista de carti din activitatea main
         listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
         listAuthors = (List<Author>) getArguments().getSerializable(AUTHOR_KEY);
 
+//        preluare carti favorite din SQLite
+        bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
 
-//
 
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
@@ -128,5 +131,35 @@ public class AllBooksFragment extends Fragment {
         }
         return null;
     }
+
+    private void updateAttributes(List<Book> booksSQL, List<Book> booksNet){
+        if(booksSQL != null && booksSQL.size()>0){
+            for (Book bDB:booksSQL) {
+                for (Book bNet:booksNet) {
+                    if(bDB.getIdBook()==bNet.getIdBook()){
+                        bNet.setIs_favorite(1);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /*********   DATABASE SQLite   **********/
+    private  Callback<List<Book>> getAllFavoriteBooksDbCallback(){
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+                if(result != null){
+                    listFavoriteBooks.clear();
+                    listFavoriteBooks.addAll(result);
+                    //        setare atribute is_read si is_favorite conform existentei lor in DB sql
+                    updateAttributes(listFavoriteBooks, listBooks);
+
+                }
+            }
+        };
+    }
+
 
 }

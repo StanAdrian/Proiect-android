@@ -46,20 +46,13 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> listBooks = new ArrayList<>();
     private ArrayList<Author> listAuthors = new ArrayList<>();
 
-    private AuthorService authorService;
-    private BookService bookService;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         configNavigation();
         //getDataFromFireBase.getaBook(listBooks);
-
-
-        authorService = new AuthorService(getApplicationContext());
-        bookService = new BookService(getApplicationContext());
 
 //      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
@@ -83,24 +76,6 @@ public class MainActivity extends AppCompatActivity {
           listAuthors.add(a1);
           listAuthors.add(a2);
 
-
-//                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
-//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a);
-//                    Author a2 = new Author(201,"Ion Luca Caragiale","Scurta biografie despre autor2",
-//                            "url nonfunctional");
-//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a2);
-
-          //          bookService.delete(deleteBookFromDbCallback(),b);
-//          bookService.delete(deleteBookFromDbCallback(),b1);
-//          bookService.delete(deleteBookFromDbCallback(),b2);
-
-//////        inserare carte in baza de date
-//          bookService.insertBook(insertBookIntoDbCallback(), b);
-//          bookService.insertBook(insertBookIntoDbCallback(), b1);
-//          bookService.insertBook(insertBookIntoDbCallback(), b2);
-
-//          bookService.getAll(getAllBooksDbCallback());
-
 //      firebaseFirestore.collection("Carti").document("solo_leveling")
 //                .get()
 //                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -111,17 +86,6 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-
-//        authorService.delete(deleteAuthorFromDbCallback(), listAuthors.get(0));
-//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 200);
-//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 201);
-//
-//       bookService.deleteByIdBook(deleteBookByIdBookFromDbCallback(),1000);
-//
-
-
-
-
         //        Preluare carti (cu autori) din url
         getBooksFromNetwork();
 
@@ -129,15 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         openDefaultFragment(savedInstanceState);
 
-
-
     }
 
     private void getBooksFromNetwork(){
         Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
         Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
         asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
-
     }
 
 
@@ -174,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+
     private void initComponents() {
         navigationView=findViewById(R.id.nav_view);
 
@@ -181,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 if(item.getItemId()==R.id.nav_all_books){
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     currentFragment = AllBooksFragment.newInstance(listBooks,listAuthors);
@@ -219,14 +180,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     /*********   FRAGMENTE    *********/
-
     private void openFragment() {
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
-
     }
 
     private void openDefaultFragment(Bundle saveInstanceState){
@@ -238,90 +197,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-/*************   DATABASE         *****************/
-    public Callback<Author> insertAuthorIntoDbCallback(){
-        return new Callback<Author>() {
-            @Override
-            public void runResultOnUiThread(Author result) {
-                if(result != null){
-                    listAuthors.add(result);
-                }
-            }
-        };
-    }
-
-
-    private Callback<Book> insertBookIntoDbCallback(){
-        return new Callback<Book>() {
-            @Override
-            public void runResultOnUiThread(Book result) {
-                if(result != null){
-                    listBooks.add(result);
-//                    notifyAdapter();
-                }
-            }
-        };
-    }
-
-    private Callback<List<Book>> getAllBooksDbCallback(){
-        return new Callback<List<Book>>() {
-            @Override
-            public void runResultOnUiThread(List<Book> result) {
-//                listBooks.clear();
-                listBooks.addAll(result);
-
-            }
-        };
-    }
-
-    private Callback<Integer> deleteBookFromDbCallback(){
-        return new Callback<Integer>() {
-            @Override
-            public void runResultOnUiThread(Integer result) {
-
-                if(result != -1){
-
-                }
-            }
-        };
-    }
-
-    private Callback<Integer> deleteAuthorFromDbCallback(){
-        return new Callback<Integer>() {
-            @Override
-            public void runResultOnUiThread(Integer result) {
-                if(result!= -1){
-
-                }
-            }
-        };
-    }
-    private Callback<Integer> deleteAuthorByIdFromDbCallback(){
-        return new Callback<Integer>() {
-            @Override
-            public void runResultOnUiThread(Integer result) {
-                if(result!= -1){
-
-                }
-            }
-        };
-    }
-
-    private Callback<Integer> deleteBookByIdBookFromDbCallback(){
-        return new Callback<Integer>() {
-            @Override
-            public void runResultOnUiThread(Integer result) {
-                if(result!=-1){
-
-                }
-            }
-        };
-    }
 
 
 }

@@ -23,6 +23,15 @@ public class BookService {
         taskRunner = new AsyncTaskRunner();
     }
 
+    public void getAllBooks(Callback<List<Book>> callback){
+        Callable<List<Book>> callable = new Callable<List<Book>>() {
+            @Override
+            public List<Book> call() {
+                return bookDao.getAll();
+            }
+        };
+        taskRunner.executeAsync(callable, callback);
+    }
 
 
 
@@ -30,7 +39,7 @@ public class BookService {
         Callable<List<Book>> callable = new Callable<List<Book>>() {
             @Override
             public List<Book> call() {
-                return bookDao.getAllBooksFavorite();
+                return bookDao.getAllFavoriteBooks();
             }
         };
         taskRunner.executeAsync(callable, callback);
@@ -99,5 +108,17 @@ public class BookService {
         taskRunner.executeAsync(callable, callback);
     }
 
+    public void eachBooksHasAuthor(Callback<Integer> callback, final long idAuthor){
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() {
+                if(idAuthor < 0){
+                    return -1;
+                }
+                return bookDao.eachBooksHasAuthor(idAuthor);
+            }
+        };
+        taskRunner.executeAsync(callable, callback);
+    }
 
 }

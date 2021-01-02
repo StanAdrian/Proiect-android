@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class BookDetailsFragment extends Fragment {
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
     private List<Author> listAuthor = new ArrayList<>(); //contine un autor si e trimitsa ca parametru pe adapter
     private List<Book> listFavoriteBooks = new ArrayList<>(); // contine toate cartile favorite
+    private List<Book> listAllBooksDb = new ArrayList<>(); // contine toate cartile
     private List<Author> listAllAuthors = new ArrayList<>(); // contine toati autorii
 
     private ListView lvBookDetails;
@@ -44,7 +46,7 @@ public class BookDetailsFragment extends Fragment {
 
     private BookService bookService;
     private AuthorService authorService;
-
+    private Integer eachBooksHasAuthor=0;
 
     public BookDetailsFragment() {
         // Required empty public constructor
@@ -145,6 +147,7 @@ public class BookDetailsFragment extends Fragment {
     }
 
 
+
     //         eveniment click buton AddBookToFavorites
     private void evClickBtnAddToFavorite() {
         btnAddToFavorites.setOnClickListener(new View.OnClickListener() {
@@ -171,17 +174,16 @@ public class BookDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if(isFavoriteBook()){
                     if(book.getIs_read()==0){
-                        authorService.delete(deleteAuthorFromDbCallback(), author);
+                        //TODO delete book, after author
+                        bookService.delete(deleteBookFromDbCallback(),book);
                     } else{
                         //update book: is_favorite = 0
                         book.setIs_favorite(0);
                         bookService.updateBook(updateBookIntoDbCallback(), book);
+
                     }
                  }
-//                else if(isFavoriteBook() && book.getIs_read() == 1){
-//                    book.setIs_favorite(0);
-//                    bookService.updateBook(updateBookIntoDbCallback(), book);
-//                }
+
             }
         });
     }
@@ -190,6 +192,11 @@ public class BookDetailsFragment extends Fragment {
     private void addBookAdapter(){
         BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthor, getLayoutInflater());
         lvBookDetails.setAdapter(bookAdapter);
+    }
+
+    public void notifyAdapter(){
+        ArrayAdapter adapter =  (ArrayAdapter) lvBookDetails.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -202,13 +209,14 @@ public class BookDetailsFragment extends Fragment {
                     listFavoriteBooks.add(result);
                     updateVisibilityButtons(getView());
                     Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_SHORT).show();
-
+                    notifyAdapter();
 //                    book.setIs_favorite(1);
 //                    bookService.updateBook(updateBookIntoDbCallback(),book);
                 }
             }
         };
     }
+
     private Callback<Author> insertAuthorIntoDbCallback(){
         return new Callback<Author>() {
             @Override
@@ -222,6 +230,7 @@ public class BookDetailsFragment extends Fragment {
             }
         };
     }
+
     private Callback<List<Book>> getAllFavoriteBooksDbCallback(){
         return new Callback<List<Book>>() {
             @Override
@@ -253,6 +262,7 @@ public class BookDetailsFragment extends Fragment {
             public void runResultOnUiThread(Book result) {
                 if(result!=null){
 //                    TODO seminar10: 1:35(hh:mm)
+                    notifyAdapter();
                 }
             }
         };
@@ -264,8 +274,16 @@ public class BookDetailsFragment extends Fragment {
             @Override
             public void runResultOnUiThread(Integer result) {
                 if(result != -1){
+                    book.setIs_favorite(0);
+                    notifyAdapter();
                     bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
                     updateVisibilityButtons(getView());
+
+                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdFKAuthor());
+
+                    if(eachBooksHasAuthor>0){
+                        authorService.delete(deleteAuthorFromDbCallback(),author);
+                    }
                     Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
                 }
             }
@@ -280,9 +298,17 @@ public class BookDetailsFragment extends Fragment {
                 if(result != -1){
                     //update listAllAuthors
                     authorService.getAll(getAllAuthorsDbCallback());
-                    //stergere carte
-                    bookService.delete(deleteBookFromDbCallback(), book);
+                }
+            }
+        };
+    }
 
+    private Callback<Integer> eachBooksHasAuthorCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                if(result != -1){
+                    eachBooksHasAuthor = result;
                 }
             }
         };
