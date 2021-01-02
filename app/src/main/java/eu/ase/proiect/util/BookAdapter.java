@@ -15,25 +15,36 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import eu.ase.proiect.R;
+import eu.ase.proiect.asyncTask.Callback;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
+import eu.ase.proiect.database.service.AuthorService;
+import eu.ase.proiect.database.service.BookService;
 
 public class BookAdapter extends ArrayAdapter<Book> {
 
     private Context context;
     private List<Book> listBooks;
+    private List<Author> listAuthors;
     private LayoutInflater inflater;
     private int resource;
 
     public BookAdapter(@NonNull Context context,
                        int resource,
-                       @NonNull List<Book> objects,
+                       @NonNull List<Book> books,
+                       List<Author> authors,
                        LayoutInflater inflater) {
-        super(context, resource, objects);
+        super(context, resource, books);
         this.context = context;
         this.resource = resource;
-        this.listBooks = objects;
+        this.listBooks = books;
+        this.listAuthors = authors;
         this.inflater = inflater;
     }
+
+
+
+
 
     @NonNull
     @Override
@@ -45,11 +56,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         if(book != null) {
             addBookTitle(view,book.getTitle());
-
-/************************            TODO           **************************************/
-//            TODO get nameAuthor from db - table Authors
-            addBookAuthor(view, "Nume Autor");
-
+            addBookAuthor(view, getNameAuthor(book.getIdBook()));
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
@@ -100,7 +107,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 imageView.setImageResource(drawableResource);
                 }
                 catch (Exception e){
-                    imageView.setImageResource(R.drawable.ic_uploading_photo);
+                    imageView.setImageResource(R.drawable.ic_amintiri_din_copilarie);
                     e.printStackTrace();
 //                    if (imgUrl!=null || imgUrl!=""){
 //                        GlideApp.with(context).load(storageReference).into(imageView);
@@ -146,5 +153,19 @@ public class BookAdapter extends ArrayAdapter<Book> {
             textView.setText(R.string.no_content);
         }
     }
+
+
+    private String getNameAuthor(long idBook){
+        String nameAuthor="";
+        for (Author a: listAuthors) {
+            if(a.getIdAuthor() == idBook){
+                nameAuthor = a.getName();
+                break;
+            }
+        }
+        return nameAuthor;
+    }
+
+
 
 }

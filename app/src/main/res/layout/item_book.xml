@@ -101,7 +101,6 @@
         app:layout_constraintEnd_toEndOf="@+id/container"
         app:layout_constraintTop_toTopOf="@+id/container"
         app:srcCompat="@drawable/ic_favorite_black_24dp"
-        app:tint="@color/fav_icon_tint"
         tools:ignore="VectorDrawableCompat"
        />
 

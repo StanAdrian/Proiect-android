@@ -8,10 +8,6 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "books")
-//, foreignKeys = @ForeignKey(entity = Author.class,
-//                                            parentColumns = "idAuthor",
-//                                            childColumns = "idAuthor",
-//                                            onDelete = CASCADE))
 public class Book implements Serializable {
 
     @PrimaryKey(autoGenerate = false)
@@ -35,8 +31,8 @@ public class Book implements Serializable {
     private int is_favorite;
     @ColumnInfo(name = "is_read")
     private int is_read;
-    @ColumnInfo(name = "idAuthor", index = true)
-    private long idAuthor;
+    @ColumnInfo(name = "idFKAuthor")
+    private long idFKAuthor;
 
 
     @Ignore
@@ -44,7 +40,7 @@ public class Book implements Serializable {
     }
 
     public Book(long idBook, String title, String description, String imgUrl, int pages, int review, float rating, int drawableResource,
-                int is_favorite, int is_read, long idAuthor) {
+                int is_favorite, int is_read, long idFKAuthor) {
         this.idBook = idBook;
         this.title = title;
         this.description = description;
@@ -55,7 +51,7 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
         this.is_favorite=is_favorite;
         this.is_read = is_read;
-        this.idAuthor = idAuthor;
+        this.idFKAuthor = idFKAuthor;
 
     }
 
@@ -133,12 +129,12 @@ public class Book implements Serializable {
         this.is_read = is_read;
     }
 
-    public long getIdAuthor() {
-        return idAuthor;
+    public long getIdFKAuthor() {
+        return idFKAuthor;
     }
 
-    public void setIdAuthor(long idAuthor) {
-        this.idAuthor = idAuthor;
+    public void setIdFKAuthor(long idFKAuthor) {
+        this.idFKAuthor = idFKAuthor;
     }
 
     public long getIdBook() {
@@ -162,7 +158,7 @@ public class Book implements Serializable {
                 ", drawableResource=" + drawableResource +
                 ", is_favorite=" + is_favorite +
                 ", is_read=" + is_read +
-                ", idAuthor=" + idAuthor +
+                ", idAuthor=" + idFKAuthor +
                 '}';
     }
 }

@@ -13,7 +13,7 @@ import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.util.DateConverter;
 
-@Database(entities = {Book.class, Author.class}, exportSchema = false, version = 8)
+@Database(entities = {Book.class, Author.class}, exportSchema = false, version = 9)
 @TypeConverters({DateConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 
@@ -37,4 +37,5 @@ public abstract class DatabaseManager extends RoomDatabase {
     public abstract BookDao getBookDao();
 
     public abstract AuthorDao getAuthorDao();
+
 }

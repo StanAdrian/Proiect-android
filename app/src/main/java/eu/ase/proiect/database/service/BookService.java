@@ -9,6 +9,7 @@ import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.DatabaseManager;
 import eu.ase.proiect.database.dao.BookDao;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
 
 public class BookService {
@@ -22,17 +23,10 @@ public class BookService {
         taskRunner = new AsyncTaskRunner();
     }
 
-    public void getAll(Callback<List<Book>> callback){
-        Callable<List<Book>> callable = new Callable<List<Book>>() {
-            @Override
-            public List<Book> call() {
-                return bookDao.getAll();
-            }
-        };
-        taskRunner.executeAsync(callable, callback);
-    }
 
-    public void getAllBooksFavorite(Callback<List<Book>> callback){
+
+
+    public void getAllFavoriteBooks(Callback<List<Book>> callback){
         Callable<List<Book>> callable = new Callable<List<Book>>() {
             @Override
             public List<Book> call() {
@@ -41,6 +35,7 @@ public class BookService {
         };
         taskRunner.executeAsync(callable, callback);
     }
+
 
 
     public void insertBook(Callback<Book> callback, final Book book){
@@ -60,7 +55,6 @@ public class BookService {
         };
         taskRunner.executeAsync(callable,callback);
     }
-
 
     public void updateBook(Callback<Book> callback, final Book book){
         Callable<Book> callable = new Callable<Book>() {
@@ -87,6 +81,19 @@ public class BookService {
                     return -1;
                 }
                 return bookDao.delete(book);
+            }
+        };
+        taskRunner.executeAsync(callable, callback);
+    }
+
+    public void deleteByIdBook(Callback<Integer> callback, final long idBook){
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() {
+                if(idBook < 0){
+                    return -1;
+                }
+                return bookDao.deleteBookByIdBook(idBook);
             }
         };
         taskRunner.executeAsync(callable, callback);

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +18,7 @@ import java.util.List;
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.database.service.AuthorService;
 import eu.ase.proiect.database.service.BookService;
@@ -30,9 +30,13 @@ import eu.ase.proiect.util.BookAdapter;
  */
 public class BookDetailsFragment extends Fragment {
 
-    private Book book;
-    private List<Book> listBooks = new ArrayList<>();
-    private List<Book> listFavoriteBooks = new ArrayList<>();
+    private Book book; //primita ca parametru la deschidere
+    private Author author; // primit ca parametru la deschidere
+    private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
+    private List<Author> listAuthor = new ArrayList<>(); //contine un autor si e trimitsa ca parametru pe adapter
+    private List<Book> listFavoriteBooks = new ArrayList<>(); // contine toate cartile favorite
+    private List<Author> listAllAuthors = new ArrayList<>(); // contine toati autorii
+
     private ListView lvBookDetails;
     private TextView tvDescription;
     private Button btnAddToFavorites;
@@ -49,7 +53,6 @@ public class BookDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -63,8 +66,6 @@ public class BookDetailsFragment extends Fragment {
         evClickBtnAddToFavorite();
         evClickBtnRemoveFromFavorite();
 
-
-
         return view;
     }
 
@@ -76,21 +77,20 @@ public class BookDetailsFragment extends Fragment {
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
 
 
-        //preiau obiectul book din fragmentul AllBookFragment
+        //preiau obiectul book si author din fragmentul AllBookFragment  /  FavoriteBooksFragment
         getBookFromAllBookFragment();
 
 //              setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_book_details));
 
-        addBookAdapter();
-
         bookService = new BookService(getContext().getApplicationContext());
         authorService = new AuthorService(getContext().getApplicationContext());
 
-
         //        lista de carti favorite este populata cu cartile din baza de date
-        bookService.getAll(getAllBooksDbCallback());
+        bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
+        authorService.getAll(getAllAuthorsDbCallback());
 
+        addBookAdapter();
 
 //           daca cartea exista in lista de favorite, btn Add e invizibil, altfel btn Remove e invizibil
         updateVisibilityButtons(view);
@@ -99,20 +99,22 @@ public class BookDetailsFragment extends Fragment {
 
     }
 
-    //    preluare book din allbookFragment
+    //    preluare book / author din allbookFragment / favoriteBooksFragmnet
     private void getBookFromAllBookFragment() {
         Bundle bundle = getArguments();
         book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
-        if(book != null) {
+        author = (Author)bundle.getSerializable(AllBooksFragment.AUTHOR_DETAILS_KEY);
+        if(book != null && author != null) {
             listBooks.add(book);
             tvDescription.setText(book.getDescription());
+            listAuthor.add(author);
         } else {
             Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
         }
     }
 
     private void updateVisibilityButtons(View view) {
-        if(isFavorite()) {
+        if(isFavoriteBook()) {
             btnAddToFavorites.setVisibility(view.INVISIBLE);
             btnRemoveFromFavorites.setVisibility(view.VISIBLE);
         } else{
@@ -121,11 +123,21 @@ public class BookDetailsFragment extends Fragment {
         }
     }
 
-    private boolean isFavorite(){
+    private boolean isFavoriteBook(){
         Book book2 = listBooks.get(0);
         for (Book b: listFavoriteBooks) {
-//            && book2.getIs_favorite() == 1
             if(b.getIdBook() == book2.getIdBook()){
+                book.setIs_read(b.getIs_read());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean authorExist() {
+        Author author2 = listAuthor.get(0);
+        for (Author a: listAllAuthors) {
+            if(a.getIdAuthor() == author2.getIdAuthor()){
                 return true;
             }
         }
@@ -133,44 +145,50 @@ public class BookDetailsFragment extends Fragment {
     }
 
 
-
+    //         eveniment click buton AddBookToFavorites
     private void evClickBtnAddToFavorite() {
-        //         eveniment click buton AddBookToFavorites
         btnAddToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isFavorite()){
-//                  add book in db
-                    bookService.insertBook(insertBookIntoDbCallback(),book);
-
-//                    TODO update is_fav=1
-
-                } else {
-                    Toast.makeText(getContext().getApplicationContext(), getString(R.string.book_exist, book.getTitle()), Toast.LENGTH_SHORT).show();
+                if(!isFavoriteBook()){
+                    if(!authorExist()){
+//                        add author in db  + in Callback  se face insert la carte + update la listFavoriteBooks
+                        authorService.insertAuthor(insertAuthorIntoDbCallback(), author);
+                    } else{
+                        book.setIs_favorite(1);
+                        bookService.insertBook(insertBookIntoDbCallback(),book);
+                    }
                 }
+
             }
         });
     }
 
+    // eveniment click buton RemoveBookFromFavorites
     private void evClickBtnRemoveFromFavorite() {
-        // eveniment click buton RemoveBookFromFavorites
         btnRemoveFromFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFavorite()){
-                    bookService.delete(deleteBookFromDbCallback(),book);
-
+                if(isFavoriteBook()){
+                    if(book.getIs_read()==0){
+                        authorService.delete(deleteAuthorFromDbCallback(), author);
+                    } else{
+                        //update book: is_favorite = 0
+                        book.setIs_favorite(0);
+                        bookService.updateBook(updateBookIntoDbCallback(), book);
+                    }
                  }
-                else{
-                    Toast.makeText(getContext(), getString(R.string.book_no_exist, book.getTitle()),Toast.LENGTH_SHORT).show();
-                }
+//                else if(isFavoriteBook() && book.getIs_read() == 1){
+//                    book.setIs_favorite(0);
+//                    bookService.updateBook(updateBookIntoDbCallback(), book);
+//                }
             }
         });
     }
 
 
     private void addBookAdapter(){
-        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, getLayoutInflater());
+        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthor, getLayoutInflater());
         lvBookDetails.setAdapter(bookAdapter);
     }
 
@@ -185,12 +203,26 @@ public class BookDetailsFragment extends Fragment {
                     updateVisibilityButtons(getView());
                     Toast.makeText(getContext().getApplicationContext(),getString(R.string.confirm_add_to_favorite, book.getTitle()), Toast.LENGTH_SHORT).show();
 
+//                    book.setIs_favorite(1);
+//                    bookService.updateBook(updateBookIntoDbCallback(),book);
                 }
             }
         };
     }
+    private Callback<Author> insertAuthorIntoDbCallback(){
+        return new Callback<Author>() {
+            @Override
+            public void runResultOnUiThread(Author result) {
+                if(result != null){
+                    listAllAuthors.add(result);
+                    book.setIs_favorite(1);
+                    bookService.insertBook(insertBookIntoDbCallback(), book);
 
-    private Callback<List<Book>> getAllBooksDbCallback(){
+                }
+            }
+        };
+    }
+    private Callback<List<Book>> getAllFavoriteBooksDbCallback(){
         return new Callback<List<Book>>() {
             @Override
             public void runResultOnUiThread(List<Book> result) {
@@ -199,11 +231,21 @@ public class BookDetailsFragment extends Fragment {
                     listFavoriteBooks.addAll(result);
                     updateVisibilityButtons(getView());
                 }
-
             }
         };
     }
 
+    private Callback<List<Author>> getAllAuthorsDbCallback(){
+        return new Callback<List<Author>>() {
+            @Override
+            public void runResultOnUiThread(List<Author> result) {
+                if(result != null){
+                    listAllAuthors.clear();
+                    listAllAuthors.addAll(result);
+                }
+            }
+        };
+    }
 
     private Callback<Book> updateBookIntoDbCallback(){
         return new Callback<Book>() {
@@ -214,6 +256,7 @@ public class BookDetailsFragment extends Fragment {
                 }
             }
         };
+
     }
 
     private Callback<Integer> deleteBookFromDbCallback(){
@@ -221,13 +264,30 @@ public class BookDetailsFragment extends Fragment {
             @Override
             public void runResultOnUiThread(Integer result) {
                 if(result != -1){
-                    bookService.getAll(getAllBooksDbCallback());
+                    bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
                     updateVisibilityButtons(getView());
                     Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
                 }
             }
         };
-
     }
+
+
+    private Callback<Integer> deleteAuthorFromDbCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                if(result != -1){
+                    //update listAllAuthors
+                    authorService.getAll(getAllAuthorsDbCallback());
+                    //stergere carte
+                    bookService.delete(deleteBookFromDbCallback(), book);
+
+                }
+            }
+        };
+    }
+
+
 
 }

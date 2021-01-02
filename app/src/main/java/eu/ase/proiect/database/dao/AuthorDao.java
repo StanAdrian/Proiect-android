@@ -26,4 +26,12 @@ public interface AuthorDao {
     //int ul rep. nr. de randuri afectate, -1 daca sunt probleme
     @Delete
     int delete (Author author);
+
+    @Query("DELETE FROM authors WHERE idAuthor = :id")
+    int delete( long id);
+
+    @Query("SELECT nameAuthor FROM authors WHERE idAuthor = :id")
+    public String getNameAuthorFromIdBook(long id);
+
+
 }

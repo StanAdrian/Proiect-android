@@ -35,7 +35,7 @@ import eu.ase.proiect.util.BookJsonParser;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String URL_BOOKS="https://jsonkeeper.com/b/4YYJ";
+    public static String URL_BOOKS="https://jsonkeeper.com/b/1JNZ";
     private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
     private ArrayList<Book> listBooks = new ArrayList<>();
-    private List<Author> listAuthors = new ArrayList<>();
+    private ArrayList<Author> listAuthors = new ArrayList<>();
 
     private AuthorService authorService;
     private BookService bookService;
@@ -62,18 +62,33 @@ public class MainActivity extends AppCompatActivity {
         bookService = new BookService(getApplicationContext());
 
 //      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
-        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!", "URLImage", 248, 11, 2.8f, R.drawable.book1, 0, 0, 200);
-          Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.", "URLImage",
-                  308, 21, 4.2f, R.drawable.gatsby2, 0,0,200);
-          Book b2 = new Book(102,"The fault in our stars","Descriere", "URLImage", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 200);
-
+        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
+                "URLImage", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
+        Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.",
+                "URLImage",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
+        Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
+                "URLImage", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
+        Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
+                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);
           listBooks.add(b);
           listBooks.add(b1);
           listBooks.add(b2);
+          listBooks.add(b3);
+
+          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "url nonfunctional");
+          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","url nonfunctional");
+          Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
+
+          listAuthors.add(a);
+          listAuthors.add(a1);
+          listAuthors.add(a2);
 
 
-          //        Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
+//                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
 //        authorService.insertAuthor(insertAuthorIntoDbCallback(), a);
+//                    Author a2 = new Author(201,"Ion Luca Caragiale","Scurta biografie despre autor2",
+//                            "url nonfunctional");
+//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a2);
 
           //          bookService.delete(deleteBookFromDbCallback(),b);
 //          bookService.delete(deleteBookFromDbCallback(),b1);
@@ -86,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 //          bookService.getAll(getAllBooksDbCallback());
 
-
-
-
 //      firebaseFirestore.collection("Carti").document("solo_leveling")
 //                .get()
 //                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -100,11 +112,20 @@ public class MainActivity extends AppCompatActivity {
 //                });
 
 
-        initComponents();
+//        authorService.delete(deleteAuthorFromDbCallback(), listAuthors.get(0));
+//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 200);
+//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 201);
+//
+//       bookService.deleteByIdBook(deleteBookByIdBookFromDbCallback(),1000);
+//
 
-//        Preluare carti din url
+
+
+
+        //        Preluare carti (cu autori) din url
         getBooksFromNetwork();
 
+        initComponents();
 
         openDefaultFragment(savedInstanceState);
 
@@ -116,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Callable<String> asyncOperation = new HttpManager(URL_BOOKS);
         Callback<String> mainThreadOperation = getMainThreadOperationForBooks();
         asyncTaskRunner.executeAsync(asyncOperation,mainThreadOperation);
+
     }
 
 
@@ -162,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId()==R.id.nav_all_books){
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    currentFragment = AllBooksFragment.newInstance(listBooks);
+                    currentFragment = AllBooksFragment.newInstance(listBooks,listAuthors);
                     ft.replace(R.id.main_frame_container, currentFragment);
                     ft.commit();
                 }
@@ -180,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.show_option,item.getTitle()),
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
 
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
@@ -209,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openDefaultFragment(Bundle saveInstanceState){
         if(saveInstanceState == null) {
-            currentFragment =  AllBooksFragment.newInstance(listBooks);
+            currentFragment =  AllBooksFragment.newInstance(listBooks, listAuthors);
             openFragment();
             navigationView.setCheckedItem(R.id.nav_all_books);
 
@@ -267,7 +289,38 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
 
+    private Callback<Integer> deleteAuthorFromDbCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                if(result!= -1){
+
+                }
+            }
+        };
+    }
+    private Callback<Integer> deleteAuthorByIdFromDbCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                if(result!= -1){
+
+                }
+            }
+        };
+    }
+
+    private Callback<Integer> deleteBookByIdBookFromDbCallback(){
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                if(result!=-1){
+
+                }
+            }
+        };
     }
 
 

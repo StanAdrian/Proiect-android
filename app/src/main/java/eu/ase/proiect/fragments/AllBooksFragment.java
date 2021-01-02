@@ -20,6 +20,7 @@ import java.util.concurrent.Callable;
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.util.BookAdapter;
@@ -30,11 +31,14 @@ import eu.ase.proiect.util.BookAdapter;
 public class AllBooksFragment extends Fragment {
 
     public static final String BOOK_DETAILS_KEY = "book_details_key";
+    public static final String AUTHOR_DETAILS_KEY = "author_details_key";
     public static final String BOOKS_KEY="book_key";
+    public static final String AUTHOR_KEY = "author_key";
 
-    private BookService bookService;
+
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
+    private List<Author> listAuthors = new ArrayList<>();
 
     public AllBooksFragment() {
         // Required empty public constructor
@@ -58,9 +62,9 @@ public class AllBooksFragment extends Fragment {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 BookDetailsFragment frg2 = new BookDetailsFragment();
-
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(BOOK_DETAILS_KEY, listBooks.get(position));
+                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdFKAuthor()));
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
@@ -69,15 +73,6 @@ public class AllBooksFragment extends Fragment {
             }
         });
 
-//        Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.","F. Scott Fitzgerland", "URLImage",
-//                308, 21, 4.2f, R.drawable.gatsby2);
-//        Book b2 = new Book(102,"The fault in our stars","Descriere","John Green", "URLImage", 321, 34, 4.8f, R.drawable.thefault);
-//
-////        inserare carte in baza de date
-//          Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!","Tayari Jones", "URLImage", 248, 11, 2.8f, R.drawable.book1);
-//          bookService.insertBook(insertBookIntoDbCallback(), b);
-//          bookService.insertBook(insertBookIntoDbCallback(), b1);
-//          bookService.insertBook(insertBookIntoDbCallback(), b2);
 
         return view;
     }
@@ -89,6 +84,7 @@ public class AllBooksFragment extends Fragment {
 
 //        preiau lista de carti din activitatea main
         listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
+        listAuthors = (List<Author>) getArguments().getSerializable(AUTHOR_KEY);
 
         //adaug adapter
         addBookAdapter();
@@ -97,12 +93,10 @@ public class AllBooksFragment extends Fragment {
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
-//        lista de carti este populata cu cartile din baza de date
-        bookService = new BookService(getContext().getApplicationContext());
-        bookService.getAll(getAllBooksFromDbCallback());
+
   }
 
-    public static AllBooksFragment newInstance(ArrayList<Book> listBooks) {
+    public static AllBooksFragment newInstance(ArrayList<Book> listBooks, ArrayList<Author> listAuthors) {
 
         AllBooksFragment fragment = new AllBooksFragment();
         //Bundle este o clasa asemanatoare cu intentul, doar ca nu poate deschide activitati.
@@ -110,17 +104,14 @@ public class AllBooksFragment extends Fragment {
         //in cazul curente adaugam lista de cheltuieli pentru a o afisa in ListView-ul din fragment Home
         Bundle bundle = new Bundle();
         bundle.putSerializable(BOOKS_KEY, listBooks);
+        bundle.putSerializable(AUTHOR_KEY, listAuthors);
         fragment.setArguments(bundle);
         return fragment;
 
     }
 
-
-
-
-
     private void addBookAdapter(){
-        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, getLayoutInflater());
+        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthors, getLayoutInflater());
         listViewAllBooks.setAdapter(bookAdapter);
     }
 
@@ -129,36 +120,13 @@ public class AllBooksFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-
-
-    /*************          DATABASE         ******************/
-    public Callback<List<Book>> getAllBooksFromDbCallback(){
-        return new Callback<List<Book>>() {
-            @Override
-            public void runResultOnUiThread(List<Book> result) {
-                if(result != null){
-                  //  listBooks.clear();
-                    listBooks.addAll(result);
-                    notifyInternalAdapter();
-                }
+    private Author getAuthorMeetBook(long idAuthor){
+        for (Author a: listAuthors) {
+            if(a.getIdAuthor() == idAuthor){
+                return a;
             }
-        };
+        }
+        return null;
     }
-
-    public Callback<Book> insertBookIntoDbCallback(){
-        return new Callback<Book>() {
-            @Override
-            public void runResultOnUiThread(Book result) {
-                if(result != null){
-                    listBooks.add(result);
-                    notifyInternalAdapter();
-                }
-            }
-        };
-    }
-
-
-
-
 
 }
