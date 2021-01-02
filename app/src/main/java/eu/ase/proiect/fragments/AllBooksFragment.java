@@ -86,14 +86,14 @@ public class AllBooksFragment extends Fragment {
         listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
         listAuthors = (List<Author>) getArguments().getSerializable(AUTHOR_KEY);
 
-        //adaug adapter
-        addBookAdapter();
+
 //
 
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
-
+        //adaug adapter
+        addBookAdapter();
   }
 
     public static AllBooksFragment newInstance(ArrayList<Book> listBooks, ArrayList<Author> listAuthors) {
