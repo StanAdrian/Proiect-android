@@ -100,9 +100,8 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="@+id/container"
         app:layout_constraintTop_toTopOf="@+id/container"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24"
-        tools:ignore="VectorDrawableCompat"
-       />
+        app:srcCompat="@drawable/ic_favorite_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
 
 

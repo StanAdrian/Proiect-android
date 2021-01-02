@@ -33,6 +33,11 @@
     <string name="title_settings">Setari</string>
     <string name="btn_f_bookDetails_add_to_favorites">Adaugare la favorite</string>
     <string name="btn_f_bookDetails_remove_book_nfrom_favorites">Stergere carte\ndin favorite</string>
+    <string name="arata_ca_e_favorit">arata ca e favorit</string>
+    <string-array name="Sex">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
     <string name="error_extract_authors_fromDB_Sqlite">Lista autori NEPRELUATA cu succes din DB SQLite</string>
     <string name="save_username_and_password">Save username and password</string>
     <string name="sign_up">Sign Up</string>

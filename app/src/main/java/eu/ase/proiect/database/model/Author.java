@@ -15,7 +15,7 @@ public class Author implements Serializable {
     @ColumnInfo(name = "idAuthor")
     private long idAuthor;
     @ColumnInfo(name = "nameAuthor")
-    private String name;
+    private String nameAuthor;
     @ColumnInfo(name = "shortBiography")
     private String shortBiography;
     @ColumnInfo(name = "imgUrlAuthor")
@@ -28,9 +28,9 @@ public class Author implements Serializable {
 
     }
 
-    public Author(long idAuthor, String name, String shortBiography, String imgUrlAuthor) {
+    public Author(long idAuthor, String nameAuthor, String shortBiography, String imgUrlAuthor) {
         this.idAuthor = idAuthor;
-        this.name = name;
+        this.nameAuthor = nameAuthor;
         this.shortBiography = shortBiography;
         this.imgUrlAuthor = imgUrlAuthor;
     }
@@ -44,12 +44,12 @@ public class Author implements Serializable {
         this.idAuthor = idAuthor;
     }
 
-    public String getName() {
-        return name;
+    public String getNameAuthor() {
+        return nameAuthor;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameAuthor(String nameAuthor) {
+        this.nameAuthor = nameAuthor;
     }
 
     public String getShortBiography() {
@@ -72,7 +72,7 @@ public class Author implements Serializable {
     public String toString() {
         return "Author{" +
                 "id=" + idAuthor +
-                ", name='" + name + '\'' +
+                ", name='" + nameAuthor + '\'' +
                 ", shortBiography='" + shortBiography + '\'' +
                 ", imgUrlAuthor='" + imgUrlAuthor + '\'' +
                 '}';

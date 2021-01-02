@@ -15,6 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
@@ -33,13 +34,11 @@ public class AllBooksFragment extends Fragment {
     public static final String BOOKS_KEY="book_key";
     public static final String AUTHOR_KEY = "author_key";
 
-
+    private BookService bookService;
     private ListView listViewAllBooks;
     private List<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
     private List<Book> listFavoriteBooks = new ArrayList<Book>();
-
-    private BookService bookService;
 
     public AllBooksFragment() {
         // Required empty public constructor
@@ -51,7 +50,6 @@ public class AllBooksFragment extends Fragment {
                              Bundle savedInstanceState) {
 //        Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
-
 //        Initializare componente + adaugare adapter + setare titlu + preluare lista carti din main activity
         initComponents(view);
 
@@ -65,7 +63,7 @@ public class AllBooksFragment extends Fragment {
                 BookDetailsFragment frg2 = new BookDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(BOOK_DETAILS_KEY, listBooks.get(position));
-                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdFKAuthor()));
+                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdAuthor()));
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
@@ -112,6 +110,10 @@ public class AllBooksFragment extends Fragment {
         return fragment;
 
     }
+
+
+
+
 
     private void addBookAdapter(){
         BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthors, getLayoutInflater());

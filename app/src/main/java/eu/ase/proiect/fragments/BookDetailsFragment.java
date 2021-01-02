@@ -4,11 +4,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +77,8 @@ public class BookDetailsFragment extends Fragment {
 //        initializare views
         lvBookDetails = view.findViewById(R.id.lv_book_details);
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
+        //se poate face scroll in descrierea textview-ului
+        tvDescription.setMovementMethod(new ScrollingMovementMethod());
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
 
@@ -119,19 +123,26 @@ public class BookDetailsFragment extends Fragment {
         if(isFavoriteBook()) {
             btnAddToFavorites.setVisibility(view.INVISIBLE);
             btnRemoveFromFavorites.setVisibility(view.VISIBLE);
+
         } else{
             btnAddToFavorites.setVisibility(view.VISIBLE);
             btnRemoveFromFavorites.setVisibility(view.INVISIBLE);
+
         }
     }
 
     private boolean isFavoriteBook(){
-        Book book2 = listBooks.get(0);
-        for (Book b: listFavoriteBooks) {
-            if(b.getIdBook() == book2.getIdBook()){
-                book.setIs_read(b.getIs_read());
-                return true;
+        try {
+            Book book2 = listBooks.get(0);
+            for (Book b : listFavoriteBooks) {
+                if (b.getIdBook() == book2.getIdBook()) {
+                    book.setIs_read(b.getIs_read());
+                    return true;
+                }
             }
+        }
+        catch (Exception e){
+            Toast.makeText(getContext(),"ceva nu merge la favorite",Toast.LENGTH_SHORT);
         }
         return false;
     }
@@ -145,7 +156,6 @@ public class BookDetailsFragment extends Fragment {
         }
         return false;
     }
-
 
 
     //         eveniment click buton AddBookToFavorites
@@ -162,9 +172,14 @@ public class BookDetailsFragment extends Fragment {
                         bookService.insertBook(insertBookIntoDbCallback(),book);
                     }
                 }
-
+                //faca rosie inima
+//                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+//                favimg.setImageResource(R.drawable.ic_favorite_red_24);
+//                btnAddToFavorites.setVisibility(getView().INVISIBLE);
+//                btnRemoveFromFavorites.setVisibility(getView().VISIBLE);
             }
         });
+
     }
 
     // eveniment click buton RemoveBookFromFavorites
@@ -183,9 +198,18 @@ public class BookDetailsFragment extends Fragment {
 
                     }
                  }
-
+                //face neagra inima
+//                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+//                favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
+//                btnAddToFavorites.setVisibility(getView().VISIBLE);
+//                btnRemoveFromFavorites.setVisibility(getView().INVISIBLE);
+//                else if(isFavoriteBook() && book.getIs_read() == 1){
+//                    book.setIs_favorite(0);
+//                    bookService.updateBook(updateBookIntoDbCallback(), book);
+//                }
             }
         });
+
     }
 
 
@@ -279,7 +303,7 @@ public class BookDetailsFragment extends Fragment {
                     bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
                     updateVisibilityButtons(getView());
 
-                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdFKAuthor());
+                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdAuthor());
 
                     if(eachBooksHasAuthor>0){
                         authorService.delete(deleteAuthorFromDbCallback(),author);

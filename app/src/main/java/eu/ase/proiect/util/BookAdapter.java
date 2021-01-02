@@ -1,6 +1,11 @@
 package eu.ase.proiect.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +17,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
 
+import eu.ase.proiect.Glide.MyAppGlideModule;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.model.Author;
@@ -42,10 +52,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         this.inflater = inflater;
     }
 
-
-
-
-
     @NonNull
     @Override
     public View getView(int position,
@@ -56,16 +62,14 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         if(book != null) {
             addBookTitle(view,book.getTitle());
-            addBookAuthor(view, getNameAuthor(book.getIdFKAuthor()));
+            addBookAuthor(view, getNameAuthor(book.getIdAuthor()));
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
             if(book.getIs_favorite()==1){
                 addFavoriteImg(view, true);
             }
-
         }
-
         return view;
     }
 
@@ -99,18 +103,17 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     private void addBookImg(View view, String imgUrl, int drawableResource){
         final ImageView imageView = view.findViewById(R.id.item_book_img);
-//        FirebaseStorage storage=FirebaseStorage.getInstance();
-//        StorageReference storageReference = storage.getReference().child("Img_Carti/"+imgUrl);
-
+        FirebaseStorage storage=FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference().child("Img_Carti/"+imgUrl);
+// R.drawable.ic_a   MERGE
+//        int NU MERGE
 
                 try {
                 imageView.setImageResource(drawableResource);
                 }
                 catch (Exception e){
-                    imageView.setImageResource(R.drawable.ic_amintiri_din_copilarie);
-                    e.printStackTrace();
-//                    if (imgUrl!=null || imgUrl!=""){
-//                        GlideApp.with(context).load(storageReference).into(imageView);
+                    if (imgUrl!=null || imgUrl!=""){
+                        Glide.with(context).load(storageReference).into(imageView);
 //                        try {
 //                            final File localFile = File.createTempFile("images", "png");
 //                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -125,11 +128,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 //                            x.printStackTrace();
 //                        }
 
-//                  }
-//                    else {
-//                        imageView.setImageResource(R.drawable.ic_uploading_photo);
-//                        e.printStackTrace();
-//                    }
+                  }
+                    else {
+                        imageView.setImageResource(R.drawable.ic_uploading_photo);
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -159,7 +162,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         String nameAuthor="";
         for (Author a: listAuthors) {
             if(a.getIdAuthor() == idFkAuthor){
-                nameAuthor = a.getName();
+                nameAuthor = a.getNameAuthor();
                 break;
             }
         }

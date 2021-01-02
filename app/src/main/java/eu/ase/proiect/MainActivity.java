@@ -1,11 +1,22 @@
 package eu.ase.proiect;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.service.AuthorService;
@@ -32,6 +44,7 @@ import eu.ase.proiect.fragments.SettingsFragment;
 import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.util.BookJsonParser;
+import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,35 +59,59 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> listBooks = new ArrayList<>();
     private ArrayList<Author> listAuthors = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //testex sa vad daca porneste cu ce e in baza de date
+        getDataFromFireBase.getBooks(listBooks);
+        getDataFromFireBase.getAuthors(listAuthors);
         configNavigation();
-        //getDataFromFireBase.getaBook(listBooks);
+
 
 //      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
-                "URLImage", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
+                "", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
         Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.",
-                "URLImage",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
+                "",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
         Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
-                "URLImage", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
-        Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
-                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);
+                "", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
+       /* Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
+                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);*/
           listBooks.add(b);
           listBooks.add(b1);
           listBooks.add(b2);
-          listBooks.add(b3);
+          //listBooks.add(b3);
 
-          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "url nonfunctional");
-          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","url nonfunctional");
-          Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
+          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "");
+          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","");
+          //Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
 
           listAuthors.add(a);
           listAuthors.add(a1);
-          listAuthors.add(a2);
+          //listAuthors.add(a2);
+
+
+//                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
+//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a);
+//                    Author a2 = new Author(201,"Ion Luca Caragiale","Scurta biografie despre autor2",
+//                            "url nonfunctional");
+//        authorService.insertAuthor(insertAuthorIntoDbCallback(), a2);
+
+          //          bookService.delete(deleteBookFromDbCallback(),b);
+//          bookService.delete(deleteBookFromDbCallback(),b1);
+//          bookService.delete(deleteBookFromDbCallback(),b2);
+
+//////        inserare carte in baza de date
+//          bookService.insertBook(insertBookIntoDbCallback(), b);
+//          bookService.insertBook(insertBookIntoDbCallback(), b1);
+//          bookService.insertBook(insertBookIntoDbCallback(), b2);
+
+//          bookService.getAll(getAllBooksDbCallback());
 
 //      firebaseFirestore.collection("Carti").document("solo_leveling")
 //                .get()
@@ -86,13 +123,30 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
+
+//        authorService.delete(deleteAuthorFromDbCallback(), listAuthors.get(0));
+//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 200);
+//        authorService.deleteById(deleteAuthorByIdFromDbCallback(), 201);
+//
+//       bookService.deleteByIdBook(deleteBookByIdBookFromDbCallback(),1000);
+//
         //        Preluare carti (cu autori) din url
         getBooksFromNetwork();
-
         initComponents();
-
         openDefaultFragment(savedInstanceState);
+    }
 
+    private void incarca_profil() {
+        View navHeader=navigationView.getHeaderView(0);
+        ImageView poza_profil=navHeader.findViewById(R.id.menu_imageView);
+        TextView username_menu=navHeader.findViewById(R.id.menu_username);
+        TextView usernmail_menu=navHeader.findViewById(R.id.menu_usermail);
+        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+        String mail=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        Glide.with(navHeader).load(uri).into(poza_profil);
+        username_menu.setText(name);
+        usernmail_menu.setText(mail);
     }
 
     private void getBooksFromNetwork(){
@@ -169,7 +223,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        //incerc sa fac load la poza de profil
+        incarca_profil();
     }
 
 

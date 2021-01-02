@@ -99,4 +99,17 @@
         app:layout_constraintTop_toTopOf="@+id/reg_button"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Spinner
+        android:id="@+id/reg_spinner"
+        android:layout_width="103dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="61dp"
+        android:entries="@array/Sex"
+        app:layout_constraintBottom_toTopOf="@+id/reg_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_Password2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

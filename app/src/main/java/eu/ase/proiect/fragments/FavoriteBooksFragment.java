@@ -70,7 +70,7 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(BOOK_DETAILS_KEY, listFavoriteBooks.get(position));
-                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listFavoriteBooks.get(position).getIdFKAuthor()));
+                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listFavoriteBooks.get(position).getIdAuthor()));
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);

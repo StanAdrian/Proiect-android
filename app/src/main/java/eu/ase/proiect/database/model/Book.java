@@ -31,8 +31,8 @@ public class Book implements Serializable {
     private int is_favorite;
     @ColumnInfo(name = "is_read")
     private int is_read;
-    @ColumnInfo(name = "idFKAuthor")
-    private long idFKAuthor;
+    @ColumnInfo(name = "idAuthor")
+    private long idAuthor;
 
 
     @Ignore
@@ -40,7 +40,7 @@ public class Book implements Serializable {
     }
 
     public Book(long idBook, String title, String description, String imgUrl, int pages, int review, float rating, int drawableResource,
-                int is_favorite, int is_read, long idFKAuthor) {
+                int is_favorite, int is_read, long idAuthor) {
         this.idBook = idBook;
         this.title = title;
         this.description = description;
@@ -51,7 +51,7 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
         this.is_favorite=is_favorite;
         this.is_read = is_read;
-        this.idFKAuthor = idFKAuthor;
+        this.idAuthor = idAuthor;
 
     }
 
@@ -129,12 +129,12 @@ public class Book implements Serializable {
         this.is_read = is_read;
     }
 
-    public long getIdFKAuthor() {
-        return idFKAuthor;
+    public long getIdAuthor() {
+        return idAuthor;
     }
 
-    public void setIdFKAuthor(long idFKAuthor) {
-        this.idFKAuthor = idFKAuthor;
+    public void setIdAuthor(long idAuthor) {
+        this.idAuthor = idAuthor;
     }
 
     public long getIdBook() {
@@ -158,7 +158,7 @@ public class Book implements Serializable {
                 ", drawableResource=" + drawableResource +
                 ", is_favorite=" + is_favorite +
                 ", is_read=" + is_read +
-                ", idAuthor=" + idFKAuthor +
+                ", idAuthor=" +  +
                 '}';
     }
 }
