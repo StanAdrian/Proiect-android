@@ -25,8 +25,6 @@ public interface BookDao {
     @Insert
     long insert (Book book);
 
-    @Query("select * from books where is_favorite = 1")
-    List<Book> getAllBooksFavorite();
 
     //int ul rep. nr. de randuri afectate, -1 daca sunt probleme
     @Update
@@ -38,5 +36,8 @@ public interface BookDao {
 
     @Query("DELETE FROM books WHERE idBook = :id")
     int deleteBookByIdBook(long id);
+
+    @Query("SELECT COUNT(*) FROM books WHERE books.idFKAuthor = :idAuthor")
+    int eachBooksHasAuthor(long idAuthor);
 
 }

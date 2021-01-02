@@ -143,7 +143,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (fav == true) {
             imageView.setImageResource(R.drawable.ic_favorite_red_24);
         } else {
-            imageView.setImageResource(R.drawable.ic_favorite_black_24dp);
+            imageView.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
 
     }
