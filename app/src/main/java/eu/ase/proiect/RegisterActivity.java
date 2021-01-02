@@ -1,4 +1,4 @@
-package eu.ase.proiect.util;
+package eu.ase.proiect;
 
 import android.Manifest;
 import android.content.Intent;
@@ -29,9 +29,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import eu.ase.proiect.MainActivity;
-import eu.ase.proiect.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

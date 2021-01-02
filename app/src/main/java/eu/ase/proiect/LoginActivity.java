@@ -1,4 +1,4 @@
-package eu.ase.proiect.util;
+package eu.ase.proiect;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import eu.ase.proiect.MainActivity;
-import eu.ase.proiect.R;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
