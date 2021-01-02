@@ -48,7 +48,7 @@ import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String URL_BOOKS="https://jsonkeeper.com/b/1JNZ";
+    public static String URL_BOOKS="https://jsonkeeper.com/b/J5EA";
     private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -66,34 +66,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //testex sa vad daca porneste cu ce e in baza de date
         getDataFromFireBase.getBooks(listBooks);
         getDataFromFireBase.getAuthors(listAuthors);
         configNavigation();
 
-
-//      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
-        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
-                "", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
-        Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.",
-                "",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
-        Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
-                "", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
-       /* Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
-                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);*/
-          listBooks.add(b);
-          listBooks.add(b1);
-          listBooks.add(b2);
-          //listBooks.add(b3);
-
-          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "");
-          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","");
-          //Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
-
-          listAuthors.add(a);
-          listAuthors.add(a1);
-          //listAuthors.add(a2);
+        /***********    ACUM DATELE DE MAI JOS SUNT INCLUSE IN JSON     ****************/
+////      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
+//        Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
+//                "", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
+//        Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.",
+//                "",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
+//        Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
+//                "", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
+//        Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
+//                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);
+//          listBooks.add(b);
+//          listBooks.add(b1);
+//          listBooks.add(b2);
+//          listBooks.add(b3);
+//          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "");
+//          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","");
+//          Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
+//          listAuthors.add(a);
+//          listAuthors.add(a1);
+//          listAuthors.add(a2);
 
 
 //                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
