@@ -68,40 +68,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //incerc sa fac load la poza de profil
-
 
         //testex sa vad daca porneste cu ce e in baza de date
         getDataFromFireBase.getBooks(listBooks);
-
+        getDataFromFireBase.getAuthors(listAuthors);
         configNavigation();
-        //getDataFromFireBase.getaBook(listBooks);
-
 
         authorService = new AuthorService(getApplicationContext());
         bookService = new BookService(getApplicationContext());
 
 //      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
-                "URLImage", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
+                "", 248, 11, 2.8f, R.drawable.book1, 0, 0, 202);
         Book b1 = new Book(101,"The Great Gasby","This book live in last generation. It's abaout crime.",
-                "URLImage",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
+                "",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
         Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
-                "URLImage", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
-        Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
-                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);
+                "", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
+       /* Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
+                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);*/
           listBooks.add(b);
           listBooks.add(b1);
           listBooks.add(b2);
-          listBooks.add(b3);
+          //listBooks.add(b3);
 
-          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "url nonfunctional");
-          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","url nonfunctional");
-          Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
+          Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "");
+          Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","");
+          //Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
 
           listAuthors.add(a);
           listAuthors.add(a1);
-          listAuthors.add(a2);
+          //listAuthors.add(a2);
 
 
 //                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");
@@ -138,22 +134,10 @@ public class MainActivity extends AppCompatActivity {
 //
 //       bookService.deleteByIdBook(deleteBookByIdBookFromDbCallback(),1000);
 //
-
-
-
-
         //        Preluare carti (cu autori) din url
         getBooksFromNetwork();
-
         initComponents();
-
-
         openDefaultFragment(savedInstanceState);
-
-
-//        Preluare carti din url
-        getBooksFromNetwork();
-
     }
 
     private void incarca_profil() {
@@ -165,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         String mail=FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         GlideApp.with(navHeader).load(uri).into(poza_profil);
-        //poza_profil.setImageURI(uri);
         username_menu.setText(name);
         usernmail_menu.setText(mail);
     }
@@ -245,7 +228,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        //incerc sa fac load la poza de profil
+        incarca_profil();
     }
 
 

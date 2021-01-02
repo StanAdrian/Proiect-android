@@ -17,9 +17,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eu.ase.proiect.database.model.Book;
-import eu.ase.proiect.util.Author;
+import eu.ase.proiect.database.model.Author;
 
 public class getDataFromFireBase {
 
@@ -40,7 +41,7 @@ public class getDataFromFireBase {
 //                });
 //    }
 
-    public static void getBooks(final List<Book> listBooks){
+    public static void getBooks(final ArrayList<Book> listBooks){
         firebaseFirestore.collection("Carti").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

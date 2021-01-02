@@ -116,7 +116,7 @@ public class BookDetailsFragment extends Fragment {
             Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
         }
     }
-
+//View view
     private void updateVisibilityButtons(View view) {
         if(isFavoriteBook()) {
             btnAddToFavorites.setVisibility(view.INVISIBLE);
@@ -128,12 +128,17 @@ public class BookDetailsFragment extends Fragment {
     }
 
     private boolean isFavoriteBook(){
-        Book book2 = listBooks.get(0);
-        for (Book b: listFavoriteBooks) {
-            if(b.getIdBook() == book2.getIdBook()){
-                book.setIs_read(b.getIs_read());
-                return true;
+        try {
+            Book book2 = listBooks.get(0);
+            for (Book b : listFavoriteBooks) {
+                if (b.getIdBook() == book2.getIdBook()) {
+                    book.setIs_read(b.getIs_read());
+                    return true;
+                }
             }
+        }
+        catch (Exception e){
+            Toast.makeText(getContext(),"ceva nu merge la favorite",Toast.LENGTH_SHORT);
         }
         return false;
     }
@@ -166,9 +171,11 @@ public class BookDetailsFragment extends Fragment {
                 //faca rosie inima
                 ImageView favimg=getView().findViewById(R.id.item_img_favorite);
                 favimg.setImageResource(R.drawable.ic_favorite_red_24);
-
+                btnAddToFavorites.setVisibility(getView().INVISIBLE);
+                btnRemoveFromFavorites.setVisibility(getView().VISIBLE);
             }
         });
+
     }
 
     // eveniment click buton RemoveBookFromFavorites
@@ -185,15 +192,18 @@ public class BookDetailsFragment extends Fragment {
                         bookService.updateBook(updateBookIntoDbCallback(), book);
                     }
                  }
-                //faca neagra inima
+                //face neagra inima
                 ImageView favimg=getView().findViewById(R.id.item_img_favorite);
                 favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
+                btnAddToFavorites.setVisibility(getView().VISIBLE);
+                btnRemoveFromFavorites.setVisibility(getView().INVISIBLE);
 //                else if(isFavoriteBook() && book.getIs_read() == 1){
 //                    book.setIs_favorite(0);
 //                    bookService.updateBook(updateBookIntoDbCallback(), book);
 //                }
             }
         });
+
     }
 
 

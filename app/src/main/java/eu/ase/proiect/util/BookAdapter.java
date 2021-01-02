@@ -17,6 +17,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
 
 import eu.ase.proiect.Glide.GlideApp;
@@ -49,10 +52,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         this.inflater = inflater;
     }
 
-
-
-
-
     @NonNull
     @Override
     public View getView(int position,
@@ -63,16 +62,14 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         if(book != null) {
             addBookTitle(view,book.getTitle());
-            addBookAuthor(view, getNameAuthor(book.getIdFKAuthor()));
+            addBookAuthor(view, getNameAuthor(book.getIdAuthor()));
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
             if(book.getIs_favorite()==1){
                 addFavoriteImg(view, true);
             }
-
         }
-
         return view;
     }
 
@@ -115,10 +112,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 imageView.setImageResource(drawableResource);
                 }
                 catch (Exception e){
-                    imageView.setImageResource(R.drawable.ic_uploading_photo);
-                    e.printStackTrace();
-//                    if (imgUrl!=null || imgUrl!=""){
-//                        GlideApp.with(context).load(storageReference).into(imageView);
+                    if (imgUrl!=null || imgUrl!=""){
+                        GlideApp.with(context).load(storageReference).into(imageView);
 //                        try {
 //                            final File localFile = File.createTempFile("images", "png");
 //                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -133,11 +128,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 //                            x.printStackTrace();
 //                        }
 
-//                  }
-//                    else {
-//                        imageView.setImageResource(R.drawable.ic_uploading_photo);
-//                        e.printStackTrace();
-//                    }
+                  }
+                    else {
+                        imageView.setImageResource(R.drawable.ic_uploading_photo);
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -167,7 +162,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         String nameAuthor="";
         for (Author a: listAuthors) {
             if(a.getIdAuthor() == idFkAuthor){
-                nameAuthor = a.getName();
+                nameAuthor = a.getNameAuthor();
                 break;
             }
         }

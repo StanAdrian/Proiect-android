@@ -21,6 +21,7 @@ import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.MainActivity;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.util.BookAdapter;
@@ -63,7 +64,7 @@ public class AllBooksFragment extends Fragment {
                 BookDetailsFragment frg2 = new BookDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(BOOK_DETAILS_KEY, listBooks.get(position));
-                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdFKAuthor()));
+                bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdAuthor()));
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
