@@ -1,7 +1,5 @@
 package eu.ase.proiect.util;
 
-import androidx.room.Ignore;
-
 import java.util.HashMap;
 import java.util.Map;
 

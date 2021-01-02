@@ -38,6 +38,7 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="error_extract_authors_fromDB_Sqlite">Lista autori NEPRELUATA cu succes din DB SQLite</string>
 
 
 </resources>

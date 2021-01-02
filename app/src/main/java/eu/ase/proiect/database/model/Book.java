@@ -1,13 +1,9 @@
 package eu.ase.proiect.database.model;
 
-import android.os.Parcelable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.Serializable;
 
@@ -32,11 +28,11 @@ public class Book implements Serializable {
     @ColumnInfo(name = "drawableResource")
     private int drawableResource; // this for testing purpos...
     @ColumnInfo(name = "is_favorite")
-    private boolean is_favorite;
+    private int is_favorite;
     @ColumnInfo(name = "is_read")
-    private boolean is_read;
-    @ColumnInfo(name = "idAuthor")
-    private long idAuthor;
+    private int is_read;
+    @ColumnInfo(name = "idFKAuthor")
+    private long idFKAuthor;
 
 
     @Ignore
@@ -44,7 +40,7 @@ public class Book implements Serializable {
     }
 
     public Book(long idBook, String title, String description, String imgUrl, int pages, int review, float rating, int drawableResource,
-                boolean is_favorite, boolean is_read, long idAuthor) {
+                int is_favorite, int is_read, long idFKAuthor) {
         this.idBook = idBook;
         this.title = title;
         this.description = description;
@@ -55,7 +51,7 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
         this.is_favorite=is_favorite;
         this.is_read = is_read;
-        this.idAuthor = idAuthor;
+        this.idFKAuthor = idFKAuthor;
 
     }
 
@@ -117,28 +113,28 @@ public class Book implements Serializable {
         this.drawableResource = drawableResource;
     }
 
-    public boolean isIs_favorite() {
+    public int getIs_favorite() {
         return is_favorite;
     }
 
-    public void setIs_favorite(boolean is_favorite) {
+    public void setIs_favorite(int is_favorite) {
         this.is_favorite = is_favorite;
     }
 
-    public boolean isIs_read() {
+    public int getIs_read() {
         return is_read;
     }
 
-    public void setIs_read(boolean is_read) {
+    public void setIs_read(int is_read) {
         this.is_read = is_read;
     }
 
-    public long getIdAuthor() {
-        return idAuthor;
+    public long getIdFKAuthor() {
+        return idFKAuthor;
     }
 
-    public void setIdAuthor(long idAuthor) {
-        this.idAuthor = idAuthor;
+    public void setIdFKAuthor(long idFKAuthor) {
+        this.idFKAuthor = idFKAuthor;
     }
 
     public long getIdBook() {
@@ -162,7 +158,7 @@ public class Book implements Serializable {
                 ", drawableResource=" + drawableResource +
                 ", is_favorite=" + is_favorite +
                 ", is_read=" + is_read +
-                ", idAuthor=" + idAuthor +
+                ", idAuthor=" + idFKAuthor +
                 '}';
     }
 }

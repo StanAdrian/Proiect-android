@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.database.model.Book;
 
 public class BookJsonParser {
@@ -46,8 +47,8 @@ public class BookJsonParser {
                     int review = objectBookDetails.getInt(REVIEW);
                     float rating = (float) objectBookDetails.getDouble(RATING);
                     int drawableResource = objectBookDetails.getInt(DRAWABLE_RESOURCE);
-                    boolean is_favorite = false;
-                    boolean is_read = false;
+                    int is_favorite = 0;
+                    int is_read = 0;
                     JSONObject objectAuthor = objectBookDetails.getJSONObject(AUTHOR);
                         int idAuthor = objectAuthor.getInt(ID_AUTHOR);
                         String nameAuthor = objectAuthor.getString(NAME);

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.AllBooksFragment">
+    tools:context="eu.ase.proiect.fragments.AllBooksFragment">
 
     <ListView
         android:id="@+id/lv_book"
