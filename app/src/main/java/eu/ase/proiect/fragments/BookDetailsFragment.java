@@ -123,9 +123,11 @@ public class BookDetailsFragment extends Fragment {
         if(isFavoriteBook()) {
             btnAddToFavorites.setVisibility(view.INVISIBLE);
             btnRemoveFromFavorites.setVisibility(view.VISIBLE);
+
         } else{
             btnAddToFavorites.setVisibility(view.VISIBLE);
             btnRemoveFromFavorites.setVisibility(view.INVISIBLE);
+
         }
     }
 
@@ -171,10 +173,10 @@ public class BookDetailsFragment extends Fragment {
                     }
                 }
                 //faca rosie inima
-                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
-                favimg.setImageResource(R.drawable.ic_favorite_red_24);
-                btnAddToFavorites.setVisibility(getView().INVISIBLE);
-                btnRemoveFromFavorites.setVisibility(getView().VISIBLE);
+//                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+//                favimg.setImageResource(R.drawable.ic_favorite_red_24);
+//                btnAddToFavorites.setVisibility(getView().INVISIBLE);
+//                btnRemoveFromFavorites.setVisibility(getView().VISIBLE);
             }
         });
 
@@ -197,10 +199,10 @@ public class BookDetailsFragment extends Fragment {
                     }
                  }
                 //face neagra inima
-                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
-                favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
-                btnAddToFavorites.setVisibility(getView().VISIBLE);
-                btnRemoveFromFavorites.setVisibility(getView().INVISIBLE);
+//                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
+//                favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
+//                btnAddToFavorites.setVisibility(getView().VISIBLE);
+//                btnRemoveFromFavorites.setVisibility(getView().INVISIBLE);
 //                else if(isFavoriteBook() && book.getIs_read() == 1){
 //                    book.setIs_favorite(0);
 //                    bookService.updateBook(updateBookIntoDbCallback(), book);
@@ -301,7 +303,7 @@ public class BookDetailsFragment extends Fragment {
                     bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
                     updateVisibilityButtons(getView());
 
-                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdFKAuthor());
+                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdAuthor());
 
                     if(eachBooksHasAuthor>0){
                         authorService.delete(deleteAuthorFromDbCallback(),author);

@@ -18,6 +18,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import eu.ase.proiect.util.RegisterActivity;
+
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText nume_utilizator,email_utilizator,parola_utilizator;

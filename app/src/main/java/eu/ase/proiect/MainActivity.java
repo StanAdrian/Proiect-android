@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,7 +32,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.ase.proiect.FireDatabase.getDataFromFireBase;
-import eu.ase.proiect.Glide.GlideApp;
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
 import eu.ase.proiect.database.service.AuthorService;
@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> listBooks = new ArrayList<>();
     private ArrayList<Author> listAuthors = new ArrayList<>();
 
-    private AuthorService authorService;
-    private BookService bookService;
 
 
     @Override
@@ -74,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
         getDataFromFireBase.getAuthors(listAuthors);
         configNavigation();
 
-        authorService = new AuthorService(getApplicationContext());
-        bookService = new BookService(getApplicationContext());
 
 //      lista allBooks este alcatuita din JSON si b, b1, b2 (hardcodate) (pe viitor va fi alc. din JSON si firebase)
         Book b = new Book(100,"An American Marriage","Is a book about romance and sweeting love!",
@@ -148,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
         String mail=FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        GlideApp.with(navHeader).load(uri).into(poza_profil);
+        Glide.with(navHeader).load(uri).into(poza_profil);
         username_menu.setText(name);
         usernmail_menu.setText(mail);
     }

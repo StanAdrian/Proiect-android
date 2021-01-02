@@ -56,6 +56,10 @@ dependencies {
     //multi dex
     implementation 'com.android.support:multidex:1.0.3'
 
+    //pdf opener
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 

@@ -40,8 +40,6 @@ public class AllBooksFragment extends Fragment {
     private List<Author> listAuthors = new ArrayList<>();
     private List<Book> listFavoriteBooks = new ArrayList<Book>();
 
-    private BookService bookService;
-
     public AllBooksFragment() {
         // Required empty public constructor
     }

@@ -37,7 +37,7 @@ public interface BookDao {
     @Query("DELETE FROM books WHERE idBook = :id")
     int deleteBookByIdBook(long id);
 
-    @Query("SELECT COUNT(*) FROM books WHERE books.idFKAuthor = :idAuthor")
+    @Query("SELECT COUNT(*) FROM books WHERE books.idAuthor = :idAuthor")
     int eachBooksHasAuthor(long idAuthor);
 
 }

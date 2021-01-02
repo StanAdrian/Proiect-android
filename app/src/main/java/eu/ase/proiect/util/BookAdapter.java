@@ -17,12 +17,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-import eu.ase.proiect.Glide.GlideApp;
 import eu.ase.proiect.Glide.MyAppGlideModule;
 import eu.ase.proiect.R;
 import eu.ase.proiect.asyncTask.Callback;
@@ -113,7 +113,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 }
                 catch (Exception e){
                     if (imgUrl!=null || imgUrl!=""){
-                        GlideApp.with(context).load(storageReference).into(imageView);
+                        Glide.with(context).load(storageReference).into(imageView);
 //                        try {
 //                            final File localFile = File.createTempFile("images", "png");
 //                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
