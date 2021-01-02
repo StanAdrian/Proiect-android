@@ -63,7 +63,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         if(book != null) {
             addBookTitle(view,book.getTitle());
-            addBookAuthor(view, getNameAuthor(book.getIdBook()));
+            addBookAuthor(view, getNameAuthor(book.getIdFKAuthor()));
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
@@ -163,10 +163,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
     }
 
 
-    private String getNameAuthor(long idBook){
+    private String getNameAuthor(long idFkAuthor){
         String nameAuthor="";
         for (Author a: listAuthors) {
-            if(a.getIdAuthor() == idBook){
+            if(a.getIdAuthor() == idFkAuthor){
                 nameAuthor = a.getName();
                 break;
             }
