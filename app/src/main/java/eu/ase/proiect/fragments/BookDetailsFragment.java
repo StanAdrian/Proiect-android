@@ -3,6 +3,7 @@ package eu.ase.proiect.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -10,10 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.rpc.context.AttributeContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import eu.ase.proiect.util.BookAdapter;
  */
 public class BookDetailsFragment extends Fragment {
 
+    public static final String AUTHOR_KEY = "author_key";
     private Book book; //primita ca parametru la deschidere
     private Author author; // primit ca parametru la deschidere
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
@@ -44,6 +47,7 @@ public class BookDetailsFragment extends Fragment {
     private TextView tvDescription;
     private Button btnAddToFavorites;
     private Button btnRemoveFromFavorites;
+    private Button btnAuthorDetails;
 
     private BookService bookService;
     private AuthorService authorService;
@@ -69,7 +73,26 @@ public class BookDetailsFragment extends Fragment {
         evClickBtnAddToFavorite();
         evClickBtnRemoveFromFavorite();
 
+        evClickBtnAuthorDetails();
+
         return view;
+    }
+
+    private void evClickBtnAuthorDetails() {
+        btnAuthorDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                AuthorDetailsFragment frg2 = new AuthorDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(AUTHOR_KEY, author);
+                frg2.setArguments(bundle);
+                ft.replace(R.id.main_frame_container, frg2);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
     }
 
     private void initComponents(View view) {
@@ -80,7 +103,7 @@ public class BookDetailsFragment extends Fragment {
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
-
+        btnAuthorDetails = view.findViewById(R.id.btn_authorDetails);
 
         //preiau obiectul book si author din fragmentul AllBookFragment  /  FavoriteBooksFragment
         getBookFromAllBookFragment();

@@ -58,6 +58,7 @@ public class AllBooksFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // trimit obiectul book in fragmentul BookDetailsFragment
+                notifyInternalAdapter();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 BookDetailsFragment frg2 = new BookDetailsFragment();

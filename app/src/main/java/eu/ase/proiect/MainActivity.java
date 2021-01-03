@@ -195,10 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     currentFragment = new FavoriteBooksFragment();
                     openFragment();
                 }
-                else if(item.getItemId() == R.id.nav_books_read) {
-                    currentFragment = new AuthorDetailsFragment();
-                    openFragment();
-                } else if(item.getItemId() == R.id.nav_settings){
+                 else if(item.getItemId() == R.id.nav_settings){
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     currentFragment= SettingsFragment.newInstance();
                     ft.replace(R.id.main_frame_container, currentFragment);

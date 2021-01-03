@@ -7,53 +7,53 @@
     tools:context="eu.ase.proiect.fragments.SettingsFragment">
 
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/cb_save_data"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="64dp"-->
-<!--        android:text="@string/save_username_and_password"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.26"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <CheckBox
+        android:id="@+id/cb_save_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/save_username_and_password"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/cb_automatic_login"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="24dp"-->
-<!--        android:textSize="18dp"-->
-<!--        android:text="@string/logare_automata"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.26"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/cb_save_data" />-->
+    <CheckBox
+        android:id="@+id/cb_automatic_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textSize="18dp"
+        android:text="@string/logare_automata"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cb_save_data" />
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_save_data_login"-->
-<!--        android:layout_width="130dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/reg_btn_style"-->
-<!--        android:text="@string/salvare"-->
-<!--        android:layout_marginBottom="64dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="683dp"-->
-<!--        android:layout_marginTop="12dp"/>-->
+    <Button
+        android:id="@+id/btn_save_data_login"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_btn_style"
+        android:text="@string/salvare"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="683dp"
+        android:layout_marginTop="12dp"/>
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_log_out"-->
-<!--        android:layout_width="130dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="86dp"-->
-<!--        android:background="@drawable/reg_btn_style"-->
-<!--        android:text="@string/delogare"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.81"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/cb_automatic_login" />-->
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:background="@drawable/reg_btn_style"
+        android:text="@string/delogare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.81"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cb_automatic_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

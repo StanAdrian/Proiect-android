@@ -53,6 +53,8 @@
     <string name="salvare">Salvare</string>
     <string name="succesfull_save">Salvare cu succes!</string>
     <string name="delogare">Delogare</string>
+    <string name="autor">Autor</string>
+    <string name="nume_autor">Nume autor</string>
 
 
 </resources>
