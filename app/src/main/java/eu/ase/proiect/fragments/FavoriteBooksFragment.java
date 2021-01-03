@@ -146,6 +146,7 @@ public class FavoriteBooksFragment extends Fragment implements Serializable {
                 if(result!=null){
                     listAuthors.clear();
                     listAuthors.addAll(result);
+
                 }
                 else {
                     Toast.makeText(getContext().getApplicationContext(), R.string.error_extract_authors_fromDB_Sqlite,

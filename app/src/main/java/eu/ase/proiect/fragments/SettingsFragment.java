@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        final View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initComponents(view);
 
 
@@ -66,7 +66,12 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 saveLoginDataInSharedPreferences();
                 Toast.makeText(getContext().getApplicationContext(), getString(R.string.succesfull_save),Toast.LENGTH_SHORT).show();
-
+                if(preferences.getBoolean(LoginActivity.SAVE_LOGIN_DATA,false)){
+                    btnLogOut.setVisibility(View.VISIBLE);
+                }
+                else{
+                    btnLogOut.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -90,6 +95,10 @@ public class SettingsFragment extends Fragment {
         checkBox_automatic_login = view.findViewById(R.id.cb_automatic_login);
         preferences = this.getActivity().getSharedPreferences(LoginActivity.PROFILE_SHARED_PREF, Context.MODE_PRIVATE);
         loadFromSharedPreference();
+        if(checkBox_automatic_login.isChecked()){
+            btnLogOut.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void loadFromSharedPreference(){

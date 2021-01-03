@@ -56,6 +56,11 @@
     <string name="autor">Autor</string>
     <string name="nume_autor">Nume autor</string>
     <string name="citeste_cartea">Citeste cartea</string>
+    <string name="user_name">User Name</string>
+    <string name="email">Email</string>
+    <string name="password_registry">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
 
 
 </resources>

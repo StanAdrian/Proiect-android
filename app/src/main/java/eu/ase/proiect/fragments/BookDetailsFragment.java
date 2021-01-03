@@ -316,7 +316,7 @@ public class BookDetailsFragment extends Fragment {
                     listAllAuthors.add(result);
                     book.setIs_favorite(1);
                     bookService.insertBook(insertBookIntoDbCallback(), book);
-
+                    notifyAdapter();
                 }
             }
         };
@@ -342,6 +342,7 @@ public class BookDetailsFragment extends Fragment {
                 if(result != null){
                     listAllAuthors.clear();
                     listAllAuthors.addAll(result);
+                    notifyAdapter();
                 }
             }
         };
@@ -373,6 +374,7 @@ public class BookDetailsFragment extends Fragment {
                     }
                     Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
                     bookService.getAllBooks(getAllBooksDbCallback());
+                    notifyAdapter();
                 }
             }
         };
@@ -399,7 +401,9 @@ public class BookDetailsFragment extends Fragment {
                 if(result != -1){
                     //update listAllAuthors
                     authorService.getAll(getAllAuthorsDbCallback());
+                    notifyAdapter();
                 }
+                notifyAdapter();
             }
         };
     }
