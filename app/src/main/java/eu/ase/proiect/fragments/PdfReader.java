@@ -111,11 +111,13 @@ public class PdfReader extends Fragment {
         WebView webView=view.findViewById(R.id.pdf_webciew);
         final ProgressBar progressBar=view.findViewById(R.id.pdf_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-
-         String url ="";
-        //String url="https://firebasestorage.googleapis.com/v0/b/proiect-librarie-dam.appspot.com/o/Pdfs%2FAmintiri_din_copilarie.pdf?alt=media&token=b7a8a6b8-c001-45cc-9566-871ceb74b3ad";
-        url=reference.getDownloadUrl().toString();
-
+        String url="";
+        if (book.getPdfUrl()!="") {
+             url = book.getPdfUrl();
+        }
+        else {
+            arataMesaj("Nu a luat Url-ul");
+        }
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
@@ -157,6 +159,9 @@ public class PdfReader extends Fragment {
         } else {
             Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
         }
+    }
+    private void arataMesaj(String s) {
+        Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
     }
 //    class RetrievePdfStream extends AsyncTask<String,Void,InputStream>{
 //

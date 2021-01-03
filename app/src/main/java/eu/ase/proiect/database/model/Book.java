@@ -33,6 +33,8 @@ public class Book implements Serializable {
     private int is_read;
     @ColumnInfo(name = "idAuthor")
     private long idAuthor;
+    @ColumnInfo(name = "pdfUrl")
+    private String pdfUrl;
 
 
     @Ignore
@@ -40,7 +42,7 @@ public class Book implements Serializable {
     }
 
     public Book(long idBook, String title, String description, String imgUrl, int pages, int review, float rating, int drawableResource,
-                int is_favorite, int is_read, long idAuthor) {
+                int is_favorite, int is_read, long idAuthor,String pdfUrl) {
         this.idBook = idBook;
         this.title = title;
         this.description = description;
@@ -52,10 +54,18 @@ public class Book implements Serializable {
         this.is_favorite=is_favorite;
         this.is_read = is_read;
         this.idAuthor = idAuthor;
+        this.pdfUrl=pdfUrl;
 
     }
 
 
+    public String getPdfUrl() {
+        return pdfUrl;
+    }
+
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
+    }
 
     public String getTitle() {
         return title;
