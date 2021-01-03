@@ -168,7 +168,7 @@ public class Book implements Serializable {
                 ", drawableResource=" + drawableResource +
                 ", is_favorite=" + is_favorite +
                 ", is_read=" + is_read +
-                ", idAuthor=" +  +
+                ", idAuthor=" +
                 '}';
     }
 }

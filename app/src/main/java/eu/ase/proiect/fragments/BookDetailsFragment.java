@@ -49,6 +49,7 @@ public class BookDetailsFragment extends Fragment {
     private Button btnAddToFavorites;
     private Button btnRemoveFromFavorites;
     private Button btnAuthorDetails;
+    private Button btnReadpdf;
 
     private BookService bookService;
     private AuthorService authorService;
@@ -75,6 +76,8 @@ public class BookDetailsFragment extends Fragment {
         evClickBtnRemoveFromFavorite();
 
         evClickBtnAuthorDetails();
+
+        evClickBtnReadPDF();
 
         return view;
     }
@@ -105,6 +108,8 @@ public class BookDetailsFragment extends Fragment {
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
         btnAuthorDetails = view.findViewById(R.id.btn_authorDetails);
+
+        btnReadpdf=view.findViewById(R.id.btn_f_book_details_Read_Book);
 
         //preiau obiectul book si author din fragmentul AllBookFragment  /  FavoriteBooksFragment
         getBookFromAllBookFragment();
@@ -178,6 +183,30 @@ public class BookDetailsFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    //citire din pdf firebase
+    private void   evClickBtnReadPDF(){
+        btnReadpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // PdfReader nextFrag= new PdfReader();
+
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.main_frame_container, nextFrag, "PdfReader Fragment")
+//                        .addToBackStack(null)
+//                        .commit();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                PdfReader frg2 = new PdfReader();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(BOOK_WITH_PDF_KEY, book);
+                frg2.setArguments(bundle);
+                ft.replace(R.id.main_frame_container, frg2);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
     }
 
     private boolean authorHasBooks(long idAuthor){
