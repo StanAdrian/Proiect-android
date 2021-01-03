@@ -102,6 +102,10 @@ public class BookDetailsFragment extends Fragment {
     private void initComponents(View view) {
 //        initializare views
         lvBookDetails = view.findViewById(R.id.lv_book_details);
+        // testez orpirea dublarii
+        listBooks.clear();
+
+
         tvDescription = view.findViewById(R.id.tv_f_book_details_description);
         //se poate face scroll in descrierea textview-ului
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
