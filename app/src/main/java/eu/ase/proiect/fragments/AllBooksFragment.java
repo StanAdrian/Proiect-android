@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class AllBooksFragment extends Fragment {
     public static final String AUTHOR_DETAILS_KEY = "author_details_key";
     public static final String BOOKS_KEY="book_key";
     public static final String AUTHOR_KEY = "author_key";
+    public static final String L_BOOK_P_KEY = "lBookP_key";
 
     private BookService bookService;
     private ListView listViewAllBooks;
-    private List<Book> listBooks = new ArrayList<>();
+    private ArrayList<Book> listBooks = new ArrayList<>();
     private List<Author> listAuthors = new ArrayList<>();
     private List<Book> listFavoriteBooks = new ArrayList<Book>();
 
@@ -53,25 +55,27 @@ public class AllBooksFragment extends Fragment {
 //        Initializare componente + adaugare adapter + setare titlu + preluare lista carti din main activity
         initComponents(view);
 
+
 //         click pe item din listview
         listViewAllBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // trimit obiectul book in fragmentul BookDetailsFragment
-                notifyInternalAdapter();
+
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 BookDetailsFragment frg2 = new BookDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(BOOK_DETAILS_KEY, listBooks.get(position));
                 bundle.putSerializable(AUTHOR_DETAILS_KEY, getAuthorMeetBook(listBooks.get(position).getIdAuthor()));
+                bundle.putSerializable(L_BOOK_P_KEY, listBooks);
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
                 ft.commit();
+                notifyInternalAdapter();
             }
         });
-
 
         return view;
     }
@@ -83,12 +87,12 @@ public class AllBooksFragment extends Fragment {
         bookService = new BookService(getContext().getApplicationContext());
 
 //        preiau lista de carti din activitatea main
-        listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
+        listBooks = (ArrayList<Book>) getArguments().getSerializable(BOOKS_KEY);
         listAuthors = (List<Author>) getArguments().getSerializable(AUTHOR_KEY);
 //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
-//        preluare carti favorite din SQLite
+//        preluare carti favorite din SQLite.
         bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
 
 
@@ -146,6 +150,8 @@ public class AllBooksFragment extends Fragment {
                 }
             }
         }
+
+
     }
 
     /*********   DATABASE SQLite   **********/
@@ -158,7 +164,7 @@ public class AllBooksFragment extends Fragment {
                     listFavoriteBooks.addAll(result);
                     //        setare atribute is_read si is_favorite conform existentei lor in DB sql
                     updateAttributes(listFavoriteBooks, listBooks);
-
+                    notifyInternalAdapter();
                 }
             }
         };

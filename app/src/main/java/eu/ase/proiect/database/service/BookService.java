@@ -48,6 +48,7 @@ public class BookService {
         Callable<List<Book>> callable = new Callable<List<Book>>() {
             @Override
             public List<Book> call() {
+
                 return bookDao.getAllFavoriteBooks();
             }
         };

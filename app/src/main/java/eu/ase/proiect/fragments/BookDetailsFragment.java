@@ -15,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.rpc.context.AttributeContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +35,16 @@ public class BookDetailsFragment extends Fragment {
 
     public static final String AUTHOR_KEY = "author_key";
     public static final String BOOK_WITH_PDF_KEY = "bookWithPdf_key";
+    public static final String LIST_BOOKS_P_KEY = "listBooksP_key";
     private Book book; //primita ca parametru la deschidere
     private Author author; // primit ca parametru la deschidere
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
     private List<Author> listAuthor = new ArrayList<>(); //contine un autor si e trimitsa ca parametru pe adapter
     private List<Book> listFavoriteBooks = new ArrayList<>(); // contine toate cartile favorite
     private List<Author> listAllAuthors = new ArrayList<>(); // contine toati autorii
+
+    private ArrayList<Book> lBooksP = new ArrayList<>();
+
 
     private ListView lvBookDetails;
     private TextView tvDescription;
@@ -91,6 +93,7 @@ public class BookDetailsFragment extends Fragment {
                 AuthorDetailsFragment frg2 = new AuthorDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(AUTHOR_KEY, author);
+                bundle.putSerializable(LIST_BOOKS_P_KEY, lBooksP);
                 frg2.setArguments(bundle);
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
@@ -138,6 +141,8 @@ public class BookDetailsFragment extends Fragment {
         Bundle bundle = getArguments();
         book = (Book)bundle.getSerializable(AllBooksFragment.BOOK_DETAILS_KEY);
         author = (Author)bundle.getSerializable(AllBooksFragment.AUTHOR_DETAILS_KEY);
+        lBooksP=(ArrayList<Book>)bundle.getSerializable(AllBooksFragment.L_BOOK_P_KEY);
+
         if(book != null && author != null) {
             listBooks.add(book);
             tvDescription.setText(book.getDescription());

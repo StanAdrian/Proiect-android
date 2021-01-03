@@ -35,7 +35,7 @@ public class AuthorAdapter extends ArrayAdapter<Author> {
                          LayoutInflater inflater) {
         super(context, resource, authors);
         this.context = context;
-        this.listAuthors = listAuthors;
+        this.listAuthors = authors;
         this.inflater = inflater;
         this.resource = resource;
     }

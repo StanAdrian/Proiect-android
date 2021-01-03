@@ -3,11 +3,13 @@ package eu.ase.proiect.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class AuthorDetailsFragment extends Fragment {
     private Author author;
     private ArrayList<Author> listAuthor = new ArrayList<>();
     private ArrayList<Book> listBooks = new ArrayList<>();
+    private ArrayList<Book> listBooksWithSingleAuthor = new ArrayList<>();
     private ListView lvAuthor;
     private TextView tvBiographyAuthor;
     private ListView lvAuthorWithBooks;
@@ -62,9 +65,6 @@ public class AuthorDetailsFragment extends Fragment {
         tvBiographyAuthor.setMovementMethod(new ScrollingMovementMethod());
         lvAuthorWithBooks = view.findViewById(R.id.lv_author_books);
 
-        bookService = new BookService(getContext().getApplicationContext());
-
-
 
         //        setez titlu
         ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_book_read));
@@ -72,16 +72,23 @@ public class AuthorDetailsFragment extends Fragment {
         addAuthorAdapter();
         tvBiographyAuthor.setText(author.getShortBiography());
 
-
-//    TODO preluat lista carti ale unui autor
-        bookService.getBooksWithIdAuthor(getAllBooksWithIdAuthorDbCallback(), author.getIdAuthor());
+        for (Book b: listBooks) {
+            if(b.getIdAuthor() == author.getIdAuthor()){
+                listBooksWithSingleAuthor.add(b);
+            }
+        }
 
 //        add adapter
         addBookAdapter();
+
+
+
+
     }
     private void getAuthorFromBookDetailsFragment() {
         Bundle bundle = getArguments();
         author = (Author)bundle.getSerializable(BookDetailsFragment.AUTHOR_KEY);
+        listBooks = (ArrayList<Book>) bundle.getSerializable((BookDetailsFragment.LIST_BOOKS_P_KEY));
         if(author != null) {
             listAuthor.add(author);
         } else {
@@ -102,7 +109,7 @@ public class AuthorDetailsFragment extends Fragment {
 
 
     private void addBookAdapter(){
-        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthor, getLayoutInflater());
+        BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooksWithSingleAuthor, listAuthor, getLayoutInflater());
         lvAuthorWithBooks.setAdapter(bookAdapter);
     }
 
@@ -112,16 +119,5 @@ public class AuthorDetailsFragment extends Fragment {
     }
 
 
-    private Callback<List<Book>> getAllBooksWithIdAuthorDbCallback(){
-        return new Callback<List<Book>>() {
-            @Override
-            public void runResultOnUiThread(List<Book> result) {
-                if(result != null){
-                    listBooks.clear();
-                    listBooks.addAll(result);
-                }
-            }
-        };
-    }
 
 }
