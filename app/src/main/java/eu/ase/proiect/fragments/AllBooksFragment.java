@@ -68,7 +68,6 @@ public class AllBooksFragment extends Fragment {
                 ft.replace(R.id.main_frame_container, frg2);
                 ft.addToBackStack(null);
                 ft.commit();
-
             }
         });
 
@@ -85,13 +84,13 @@ public class AllBooksFragment extends Fragment {
 //        preiau lista de carti din activitatea main
         listBooks = (List<Book>) getArguments().getSerializable(BOOKS_KEY);
         listAuthors = (List<Author>) getArguments().getSerializable(AUTHOR_KEY);
+//        setez titlu
+        ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
 //        preluare carti favorite din SQLite
         bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
 
 
-//        setez titlu
-        ((MainActivity) getActivity()).setActionBatTitle(getString(R.string.title_all_books));
 
         //adaug adapter
         addBookAdapter();
@@ -140,7 +139,8 @@ public class AllBooksFragment extends Fragment {
                 for (Book bNet:booksNet) {
                     if(bDB.getIdBook()==bNet.getIdBook()){
                         bNet.setIs_favorite(1);
-                        break;
+                    }else{
+                        bNet.setIs_favorite(0);
                     }
                 }
             }

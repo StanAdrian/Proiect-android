@@ -17,7 +17,7 @@ public interface BookDao {
     @Query("select * from books")
     List<Book> getAll();
 
-    @Query("select * from books where is_favorite = 1")
+    @Query("select * from books")
     List<Book> getAllFavoriteBooks();
 
 
@@ -37,7 +37,7 @@ public interface BookDao {
     @Query("DELETE FROM books WHERE idBook = :id")
     int deleteBookByIdBook(long id);
 
-    @Query("SELECT COUNT(*) FROM books WHERE books.idAuthor = :idAuthor")
-    int eachBooksHasAuthor(long idAuthor);
+//    @Query("SELECT COUNT(*) FROM books WHERE books.idAuthor = :idAuthor")
+//    int eachBooksHasAuthor(long idAuthor);
 
 }

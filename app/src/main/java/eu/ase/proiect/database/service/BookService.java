@@ -108,17 +108,17 @@ public class BookService {
         taskRunner.executeAsync(callable, callback);
     }
 
-    public void eachBooksHasAuthor(Callback<Integer> callback, final long idAuthor){
-        Callable<Integer> callable = new Callable<Integer>() {
-            @Override
-            public Integer call() {
-                if(idAuthor < 0){
-                    return -1;
-                }
-                return bookDao.eachBooksHasAuthor(idAuthor);
-            }
-        };
-        taskRunner.executeAsync(callable, callback);
-    }
+//    public void eachBooksHasAuthor(Callback<Integer> callback, final long idAuthor){
+//        Callable<Integer> callable = new Callable<Integer>() {
+//            @Override
+//            public Integer call() {
+//                if(idAuthor < 0){
+//                    return -1;
+//                }
+//                return bookDao.eachBooksHasAuthor(idAuthor);
+//            }
+//        };
+//        taskRunner.executeAsync(callable, callback);
+//    }
 
 }

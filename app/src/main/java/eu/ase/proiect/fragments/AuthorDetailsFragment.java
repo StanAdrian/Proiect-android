@@ -14,10 +14,10 @@ import eu.ase.proiect.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BooksReadFragment extends Fragment {
+public class AuthorDetailsFragment extends Fragment {
 
 
-    public BooksReadFragment() {
+    public AuthorDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class BooksReadFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_books_read, container, false);
+        View view = inflater.inflate(R.layout.fragment_details_author, container, false);
         initComponents();
 
         return view;

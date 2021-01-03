@@ -2,7 +2,6 @@ package eu.ase.proiect;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,11 +11,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,27 +23,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.ase.proiect.FireDatabase.getDataFromFireBase;
 import eu.ase.proiect.asyncTask.AsyncTaskRunner;
 import eu.ase.proiect.asyncTask.Callback;
-import eu.ase.proiect.database.service.AuthorService;
-import eu.ase.proiect.database.service.BookService;
 import eu.ase.proiect.fragments.AllBooksFragment;
-import eu.ase.proiect.fragments.BooksReadFragment;
+import eu.ase.proiect.fragments.AuthorDetailsFragment;
 import eu.ase.proiect.fragments.FavoriteBooksFragment;
 import eu.ase.proiect.database.model.Book;
 import eu.ase.proiect.fragments.SettingsFragment;
 import eu.ase.proiect.network.HttpManager;
 import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.util.BookJsonParser;
-import eu.ase.proiect.util.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String URL_BOOKS="https://jsonkeeper.com/b/J5EA";
+    public static String URL_BOOKS="https://jsonkeeper.com/b/8RH2";
     private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -205,11 +196,13 @@ public class MainActivity extends AppCompatActivity {
                     openFragment();
                 }
                 else if(item.getItemId() == R.id.nav_books_read) {
-                    currentFragment = new BooksReadFragment();
+                    currentFragment = new AuthorDetailsFragment();
                     openFragment();
                 } else if(item.getItemId() == R.id.nav_settings){
-                    currentFragment= new SettingsFragment();
-                    openFragment();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    currentFragment= SettingsFragment.newInstance();
+                    ft.replace(R.id.main_frame_container, currentFragment);
+                    ft.commit();
                 }
 
                 Toast.makeText(getApplicationContext(),

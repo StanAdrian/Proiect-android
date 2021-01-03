@@ -10,7 +10,7 @@
         android:id="@+id/log_ImageView"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/reg_Username"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,43 +41,54 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/reg_edittext_style"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/checkBox_save_user_and_password"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="281dp" />
+        app:layout_constraintGuide_begin="274dp" />
+
+
+    <CheckBox
+        android:id="@+id/checkBox_save_user_and_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/save_username_and_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/log_password" />
+
+    <CheckBox
+        android:id="@+id/checkBox_automatic_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/logare_automata"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_save_user_and_password" />
 
     <Button
         android:id="@+id/log_in_btn"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/reg_btn_style"
         android:text="@string/log_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_password" />
-
-    <Button
-        android:id="@+id/log_signup_btn"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/reg_btn_style"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_in_btn"
-        app:layout_constraintVertical_bias="0.052" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_automatic_login" />
 
     <ProgressBar
         android:id="@+id/log_progressBar"
@@ -89,15 +100,17 @@
         app:layout_constraintStart_toStartOf="@+id/log_in_btn"
         app:layout_constraintTop_toTopOf="@+id/log_in_btn" />
 
-    <CheckBox
-        android:id="@+id/checkBox_save_user_and_password"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/log_signup_btn"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/save_username_and_password"
+        android:background="@drawable/reg_btn_style"
+        android:text="@string/sign_up"
+        app:layout_constraintTop_toBottomOf="@id/log_in_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_password" />
+        tools:layout_editor_absoluteY="683dp"
+        android:layout_marginTop="12dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

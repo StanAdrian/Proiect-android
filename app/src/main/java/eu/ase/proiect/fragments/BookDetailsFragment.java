@@ -38,7 +38,6 @@ public class BookDetailsFragment extends Fragment {
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
     private List<Author> listAuthor = new ArrayList<>(); //contine un autor si e trimitsa ca parametru pe adapter
     private List<Book> listFavoriteBooks = new ArrayList<>(); // contine toate cartile favorite
-    private List<Book> listAllBooksDb = new ArrayList<>(); // contine toate cartile
     private List<Author> listAllAuthors = new ArrayList<>(); // contine toati autorii
 
     private ListView lvBookDetails;
@@ -157,6 +156,18 @@ public class BookDetailsFragment extends Fragment {
         return false;
     }
 
+    private boolean authorHasBooks(long idAuthor){
+        int nr=0;
+        for (Book b: listFavoriteBooks) {
+            if(b.getIdAuthor()==idAuthor){
+                nr++;
+                if(nr==2){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     //         eveniment click buton AddBookToFavorites
     private void evClickBtnAddToFavorite() {
@@ -191,22 +202,15 @@ public class BookDetailsFragment extends Fragment {
                     if(book.getIs_read()==0){
                         //TODO delete book, after author
                         bookService.delete(deleteBookFromDbCallback(),book);
-                    } else{
-                        //update book: is_favorite = 0
-                        book.setIs_favorite(0);
-                        bookService.updateBook(updateBookIntoDbCallback(), book);
-
                     }
+//                    else{
+//                        //update book: is_favorite = 0
+//                        book.setIs_favorite(0);
+//                        bookService.updateBook(updateBookIntoDbCallback(), book);
+//
+//                    }
                  }
-                //face neagra inima
-//                ImageView favimg=getView().findViewById(R.id.item_img_favorite);
-//                favimg.setImageResource(R.drawable.ic_favorite_black_24dp);
-//                btnAddToFavorites.setVisibility(getView().VISIBLE);
-//                btnRemoveFromFavorites.setVisibility(getView().INVISIBLE);
-//                else if(isFavoriteBook() && book.getIs_read() == 1){
-//                    book.setIs_favorite(0);
-//                    bookService.updateBook(updateBookIntoDbCallback(), book);
-//                }
+
             }
         });
 
@@ -300,15 +304,25 @@ public class BookDetailsFragment extends Fragment {
                 if(result != -1){
                     book.setIs_favorite(0);
                     notifyAdapter();
-                    bookService.getAllFavoriteBooks(getAllFavoriteBooksDbCallback());
                     updateVisibilityButtons(getView());
-
-                    bookService.eachBooksHasAuthor(eachBooksHasAuthorCallback(),book.getIdAuthor());
-
-                    if(eachBooksHasAuthor>0){
+                    if(!authorHasBooks(author.getIdAuthor())){
                         authorService.delete(deleteAuthorFromDbCallback(),author);
                     }
                     Toast.makeText(getContext(), getString(R.string.confirm_remove_to_favorite,book.getTitle()),Toast.LENGTH_SHORT).show();
+                    bookService.getAllBooks(getAllBooksDbCallback());
+                }
+            }
+        };
+    }
+
+    private Callback<List<Book>> getAllBooksDbCallback() {
+        return new Callback<List<Book>>() {
+            @Override
+            public void runResultOnUiThread(List<Book> result) {
+                if(result!=null){
+                    listFavoriteBooks.clear();
+                    listFavoriteBooks.addAll(result);
+                    updateVisibilityButtons(getView());
                 }
             }
         };
@@ -327,16 +341,16 @@ public class BookDetailsFragment extends Fragment {
         };
     }
 
-    private Callback<Integer> eachBooksHasAuthorCallback(){
-        return new Callback<Integer>() {
-            @Override
-            public void runResultOnUiThread(Integer result) {
-                if(result != -1){
-                    eachBooksHasAuthor = result;
-                }
-            }
-        };
-    }
+//    private Callback<Integer> eachBooksHasAuthorCallback(){
+//        return new Callback<Integer>() {
+//            @Override
+//            public void runResultOnUiThread(Integer result) {
+//                if(result != -1){
+//                    eachBooksHasAuthor = result;
+//                }
+//            }
+//        };
+//    }
 
 
 

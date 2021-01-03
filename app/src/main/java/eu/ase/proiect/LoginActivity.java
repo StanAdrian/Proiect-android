@@ -23,6 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 import eu.ase.proiect.util.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String SAVE_LOGIN_DATA = "saveLoginData";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String AUTOMATIC_LOGIN = "automatic_login";
+    public static final String PROFILE_SHARED_PREF = "profileSharedPref";
     private FirebaseAuth mAuth;
     private EditText nume_utilizator,email_utilizator,parola_utilizator;
     private Button btn_log_in,btn_sign_up;
@@ -30,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView imagine_utilizator;
 
     private CheckBox checkBox_save;
+    private CheckBox checkBox_automatic_login;
     private SharedPreferences preferences;
 
     @Override
@@ -48,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
         btn_log_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                 btn_log_in.setVisibility(View.INVISIBLE);
                 final String mail=email_utilizator.getText().toString();
                 final String parola=parola_utilizator.getText().toString();
-                if (mail.isEmpty() || parola.isEmpty()){
+                if (mail.isEmpty() && parola.isEmpty()){
                     arataMesaj("Verificati campurile!");
+                    baraProgresLogIN.setVisibility(View.INVISIBLE);
+                    btn_log_in.setVisibility(View.VISIBLE);
                 }
                 else {
                     signIN(mail,parola);
@@ -85,8 +96,13 @@ public class LoginActivity extends AppCompatActivity {
         imagine_utilizator=findViewById(R.id.log_ImageView);
         mAuth= FirebaseAuth.getInstance();
         checkBox_save = findViewById(R.id.checkBox_save_user_and_password);
+        checkBox_automatic_login=findViewById(R.id.checkBox_automatic_login);
 
-        preferences = getSharedPreferences("profileSharedPref", MODE_PRIVATE);
+        preferences = getSharedPreferences(PROFILE_SHARED_PREF, MODE_PRIVATE);
+
+        if(preferences.getBoolean(SAVE_LOGIN_DATA, false)){
+            loadFromSharedPreference();
+        }
 
     }
 
@@ -98,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
             if (task.isSuccessful())
             {
                 saveLoginDataInSharedPreferences();
-
 
                 baraProgresLogIN.setVisibility(View.INVISIBLE);
                 btn_log_in.setVisibility(View.VISIBLE);
@@ -114,17 +129,24 @@ public class LoginActivity extends AppCompatActivity {
     });
     }
 
-
+    private void loadFromSharedPreference(){
+        checkBox_save.setChecked(preferences.getBoolean(SAVE_LOGIN_DATA, false));
+        checkBox_automatic_login.setChecked(preferences.getBoolean(AUTOMATIC_LOGIN, false));
+        email_utilizator.setText(preferences.getString(EMAIL,""));
+        parola_utilizator.setText(preferences.getString(PASSWORD, ""));
+    }
 
     private void saveLoginDataInSharedPreferences() {
-        //                scriu in fisierul de preferinta numele si parola
+//        scriu in fisierul de preferinta numele si parola
         boolean checkBoxSave = checkBox_save.isChecked();
+        boolean checkBoxAutomaticLogin = checkBox_automatic_login.isChecked();
 
 //                salvarea in fisierul de preferinte
         SharedPreferences.Editor editor =preferences.edit();
-        editor.putBoolean("saveLoginData",checkBoxSave);
-        editor.putString("email",email_utilizator.getText().toString());
-        editor.putString("password", parola_utilizator.getText().toString());
+        editor.putBoolean(SAVE_LOGIN_DATA,checkBoxSave);
+        editor.putBoolean(AUTOMATIC_LOGIN,checkBoxAutomaticLogin);
+        editor.putString(EMAIL,email_utilizator.getText().toString());
+        editor.putString(PASSWORD, parola_utilizator.getText().toString());
         editor.apply();
     }
 
@@ -141,11 +163,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //aici se face logare automata
-        FirebaseUser user=mAuth.getCurrentUser();
-        if (user != null){
-            //userul este deja conectat deci il trimitem in ecranul principal
-            updateUI();
+        if(preferences.getBoolean(AUTOMATIC_LOGIN,false)) {
+//        aici se face logare automata
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                //userul este deja conectat deci il trimitem in ecranul principal
+                updateUI();
+            }
         }
     }
 }
