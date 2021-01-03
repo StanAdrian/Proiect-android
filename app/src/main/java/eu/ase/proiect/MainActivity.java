@@ -38,8 +38,8 @@ import eu.ase.proiect.database.model.Author;
 import eu.ase.proiect.util.BookJsonParser;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static String URL_BOOKS="https://jsonkeeper.com/b/8RH2";
+            //old link https://jsonkeeper.com/b/8RH2
+    public static String URL_BOOKS="https://jsonkeeper.com/b/DWCF";
     private FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;

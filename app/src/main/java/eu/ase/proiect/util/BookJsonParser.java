@@ -26,6 +26,7 @@ public class BookJsonParser {
     public static final String NAME = "name";
     public static final String IMG_URL_AUTHOR = "imgUrlAuthor";
     public static final String SHORT_BIOGRAPHY = "shortBiography";
+    public static final String PDF_URL = "pdfUrl";
 
     public static List<Book> fromJson (String json, List<Author> listAuthors){
         if(json == null || json.isEmpty()){
@@ -49,7 +50,7 @@ public class BookJsonParser {
                     int drawableResource = objectBookDetails.getInt(DRAWABLE_RESOURCE);
                     int is_favorite = 0;
                     int is_read = 0;
-                    String pdfUrl="";
+                    String pdfUrl=objectBookDetails.getString(PDF_URL);
                     JSONObject objectAuthor = objectBookDetails.getJSONObject(AUTHOR);
                         int idAuthor = objectAuthor.getInt(ID_AUTHOR);
                         String nameAuthor = objectAuthor.getString(NAME);
