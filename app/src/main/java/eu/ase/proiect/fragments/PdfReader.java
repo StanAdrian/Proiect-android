@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
@@ -41,12 +42,15 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import eu.ase.proiect.R;
+import eu.ase.proiect.database.model.Author;
+import eu.ase.proiect.database.model.Book;
 
 
 public class PdfReader extends Fragment {
 
     private TextView pdftext;
     private PDFView pdfView;
+    private Book book;
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference reference = firebaseStorage.getReference().child("Pdfs/Amintiri_din_copilarie.pdf");
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
@@ -101,6 +105,9 @@ public class PdfReader extends Fragment {
 //        String url = pdftext.getText().toString();
 //        new RetrievePdfStream().execute(url);
 
+        //luam carte din fragmentul BookDetails
+        getBookFromAllBookFragment();
+
         WebView webView=view.findViewById(R.id.pdf_webciew);
         final ProgressBar progressBar=view.findViewById(R.id.pdf_progressbar);
         progressBar.setVisibility(View.VISIBLE);
@@ -140,7 +147,17 @@ public class PdfReader extends Fragment {
         return view;
     }
 
+    //    preluare book / author din allbookFragment / favoriteBooksFragmnet
+    private void getBookFromAllBookFragment() {
+        Bundle bundle = getArguments();
+        book = (Book)bundle.getSerializable(BookDetailsFragment.BOOK_WITH_PDF_KEY);
+        if(book != null ) {
+          //TODO
 
+        } else {
+            Toast.makeText(getContext().getApplicationContext(), R.string.error_message_transfer_between_fragment,Toast.LENGTH_LONG).show();
+        }
+    }
 //    class RetrievePdfStream extends AsyncTask<String,Void,InputStream>{
 //
 //        @Override

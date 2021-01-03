@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import eu.ase.proiect.util.BookAdapter;
  */
 public class BookDetailsFragment extends Fragment {
 
+    public static final String BOOK_WITH_PDF_KEY = "bookWithPdf_key";
     private Book book; //primita ca parametru la deschidere
     private Author author; // primit ca parametru la deschidere
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter
@@ -171,11 +173,21 @@ public class BookDetailsFragment extends Fragment {
         btnReadpdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PdfReader nextFrag= new PdfReader();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_frame_container, nextFrag, "PdfReader Fragment")
-                        .addToBackStack(null)
-                        .commit();
+               // PdfReader nextFrag= new PdfReader();
+
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.main_frame_container, nextFrag, "PdfReader Fragment")
+//                        .addToBackStack(null)
+//                        .commit();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                PdfReader frg2 = new PdfReader();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(BOOK_WITH_PDF_KEY, book);
+                frg2.setArguments(bundle);
+                ft.replace(R.id.main_frame_container, frg2);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
     }
