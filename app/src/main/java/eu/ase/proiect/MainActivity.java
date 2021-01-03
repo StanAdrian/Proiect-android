@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 "",308, 21, 4.2f, R.drawable.gatsby2, 0,0,203);
         Book b2 = new Book(102,"The fault in our stars","Descriere amanuntita a cartii!",
                 "", 321, 34, 4.8f, R.drawable.thefault, 0, 0, 204);
-       /* Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
-                "URLImage", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);*/
+        /*Book b3 = new Book(103,"Silver Sparrow","Descriere amanuntita a cartii!",
+                "", 239, 19, 3.3f, R.drawable.silver_book, 0, 0, 202);*/
           listBooks.add(b);
           listBooks.add(b1);
           listBooks.add(b2);
@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
           Author a = new Author(202,"Toyari Jones","Scurta biografie despre autor", "");
           Author a1 = new Author(203,"F. Scott Fitzgerald","Biografie despre autor, scurta","");
-          //Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
+          Author a2 = new Author(204,"Jhon Green","Scurta biografie despre autor222222","url nonfunctional");
 
           listAuthors.add(a);
           listAuthors.add(a1);
-          //listAuthors.add(a2);
+          listAuthors.add(a2);
 
 
 //                  Author a = new Author(200,"Ion Creanga","Scurta biografie despre autor", "url nonfunctional");

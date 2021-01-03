@@ -2,7 +2,10 @@ package eu.ase.proiect.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -45,6 +48,9 @@ public class BookDetailsFragment extends Fragment {
     private TextView tvDescription;
     private Button btnAddToFavorites;
     private Button btnRemoveFromFavorites;
+    private Button btnReadpdf;
+
+    private Fragment currentFragment;
 
     private BookService bookService;
     private AuthorService authorService;
@@ -69,6 +75,7 @@ public class BookDetailsFragment extends Fragment {
 
         evClickBtnAddToFavorite();
         evClickBtnRemoveFromFavorite();
+        evClickBtnReadPDF();
 
         return view;
     }
@@ -81,6 +88,8 @@ public class BookDetailsFragment extends Fragment {
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
         btnAddToFavorites = view.findViewById(R.id.btn_f_book_details_addToFavorite);
         btnRemoveFromFavorites = view. findViewById(R.id.btn_f_book_details_removeFromFavorite);
+        btnReadpdf=view.findViewById(R.id.btn_f_book_details_Read_Book);
+        btnReadpdf.setVisibility(View.VISIBLE);
 
 
         //preiau obiectul book si author din fragmentul AllBookFragment  /  FavoriteBooksFragment
@@ -155,6 +164,20 @@ public class BookDetailsFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    //citire din pdf firebase
+    private void   evClickBtnReadPDF(){
+        btnReadpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PdfReader nextFrag= new PdfReader();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame_container, nextFrag, "PdfReader Fragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
 
