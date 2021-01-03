@@ -251,6 +251,7 @@ public class BookDetailsFragment extends Fragment {
     private void addBookAdapter(){
         BookAdapter bookAdapter = new BookAdapter(getContext().getApplicationContext(), R.layout.item_book, listBooks, listAuthor, getLayoutInflater());
         lvBookDetails.setAdapter(bookAdapter);
+
     }
 
     public void notifyAdapter(){
