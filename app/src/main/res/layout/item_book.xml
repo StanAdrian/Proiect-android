@@ -30,10 +30,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_uploading_photo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/book1" />
+         />
 
     <TextView
         android:textStyle="bold"
@@ -43,7 +44,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="An American Marriage"
+        android:text="@string/Title"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toTopOf="@+id/container" />
 
@@ -54,7 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="By Tayari Jones"
+        android:text="@string/author"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toBottomOf="@+id/item_book_title" />
 
@@ -75,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="score"
+        android:text="@string/score"
         app:layout_constraintBottom_toBottomOf="@+id/item_book_ratingbar"
         app:layout_constraintStart_toEndOf="@+id/item_book_ratingbar"
         app:layout_constraintTop_toTopOf="@+id/item_book_ratingbar" />
@@ -87,7 +88,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="225 pages | 23 review"
+        android:text="@string/x_pages_y_review"
         app:layout_constraintStart_toEndOf="@+id/item_book_img"
         app:layout_constraintTop_toBottomOf="@+id/item_book_ratingbar" />
 
@@ -100,7 +101,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="@+id/container"
         app:layout_constraintTop_toTopOf="@+id/container"
-        app:srcCompat="@drawable/ic_favorite_black_24dp"
+        app:srcCompat="@drawable/ic_baseline_favorite_border_24"
         tools:ignore="VectorDrawableCompat" />
 
 

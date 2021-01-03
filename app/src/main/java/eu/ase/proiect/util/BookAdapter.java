@@ -65,7 +65,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
             addBookAuthor(view, getNameAuthor(book.getIdAuthor()));
             addRatingBar(view, book.getRating());
             addNbPages(view, book.getPages(), book.getReview());
+
             addBookImg(view, book.getImgUrl(), book.getDrawableResource());
+
             if(book.getIs_favorite()==1){
                 addFavoriteImg(view, true);
             }
@@ -101,42 +103,17 @@ public class BookAdapter extends ArrayAdapter<Book> {
         }
     }
 
-    private void addBookImg(View view, String imgUrl, int drawableResource){
+    private void addBookImg(View view, String imgUrl, int drawableResource) {
         final ImageView imageView = view.findViewById(R.id.item_book_img);
-        FirebaseStorage storage=FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference().child("Img_Carti/"+imgUrl);
-// R.drawable.ic_a   MERGE
-//        int NU MERGE
-
-                try {
-                imageView.setImageResource(drawableResource);
-                }
-                catch (Exception e){
-                    if (imgUrl!=null || imgUrl!=""){
-                        Glide.with(context).load(storageReference).into(imageView);
-//                        try {
-//                            final File localFile = File.createTempFile("images", "png");
-//                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                                @Override
-//                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                                    imageView.setImageBitmap(bitmap);
-//                                }
-//                            });
-//                        }
-//                        catch (IOException x){
-//                            x.printStackTrace();
-//                        }
-
-                  }
-                    else {
-                        imageView.setImageResource(R.drawable.ic_uploading_photo);
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        try {
+            StorageReference storageReference = storage.getReference().child("Img_Carti/" + imgUrl);
+            Glide.with(context).load(storageReference).into(imageView);
+        } catch (Exception e) {
+            imageView.setImageResource(R.drawable.ic_uploading_photo);
+            e.printStackTrace();
+        }
+    }
 
     private void addFavoriteImg(View view, boolean fav){
         ImageView imageView = view.findViewById(R.id.item_img_favorite);
@@ -148,7 +125,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     }
 
-
     private void populateFromView(String string, TextView textView) {
         if (string != null && !string.trim().isEmpty()) {
             textView.setText(string);
@@ -156,7 +132,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
             textView.setText(R.string.no_content);
         }
     }
-
 
     private String getNameAuthor(long idFkAuthor){
         String nameAuthor="";
