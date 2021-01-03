@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="519dp" />
+        app:layout_constraintGuide_begin="501dp" />
 
     <Button
         android:id="@+id/btn_f_book_details_Read_Book"
