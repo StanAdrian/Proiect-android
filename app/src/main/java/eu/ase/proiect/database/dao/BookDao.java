@@ -20,6 +20,8 @@ public interface BookDao {
     @Query("select * from books")
     List<Book> getAllFavoriteBooks();
 
+    @Query("SELECT * FROM books WHERE books.idAuthor = :id")
+    List<Book> getBooksWithIdAuthor(long id);
 
     //returneaza id ul inregistrarii sau -1 daca apar probleme
     @Insert

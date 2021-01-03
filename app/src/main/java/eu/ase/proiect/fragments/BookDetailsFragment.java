@@ -36,6 +36,7 @@ import eu.ase.proiect.util.BookAdapter;
 public class BookDetailsFragment extends Fragment {
 
     public static final String AUTHOR_KEY = "author_key";
+    public static final String BOOK_WITH_PDF_KEY = "bookWithPdf_key";
     private Book book; //primita ca parametru la deschidere
     private Author author; // primit ca parametru la deschidere
     private List<Book> listBooks = new ArrayList<>(); //contine o carte si e trimitsa ca parametru pe adapter

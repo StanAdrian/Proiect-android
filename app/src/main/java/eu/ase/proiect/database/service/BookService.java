@@ -33,6 +33,15 @@ public class BookService {
         taskRunner.executeAsync(callable, callback);
     }
 
+    public void getBooksWithIdAuthor(Callback<List<Book>> callback, final long id){
+        Callable<List<Book>> callable = new Callable<List<Book>>() {
+            @Override
+            public List<Book> call() {
+                return bookDao.getBooksWithIdAuthor(id);
+            }
+        };
+        taskRunner.executeAsync(callable,callback);
+    }
 
 
     public void getAllFavoriteBooks(Callback<List<Book>> callback){

@@ -55,6 +55,7 @@
     <string name="delogare">Delogare</string>
     <string name="autor">Autor</string>
     <string name="nume_autor">Nume autor</string>
+    <string name="citeste_cartea">Citeste cartea</string>
 
 
 </resources>
